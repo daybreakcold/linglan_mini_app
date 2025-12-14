@@ -1,0 +1,8 @@
+<!-- pages/agreement/agreement.wxml -->
+<view class="page">
+  <scroll-view class="content-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content-wrapper">
+      <rich-text class="agreement-content" nodes="{{content}}"></rich-text>
+    </view>
+  </scroll-view>
+</view>

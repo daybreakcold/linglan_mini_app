@@ -1,0 +1,91 @@
+<!--pages/course/course.wxml-->
+<!--健康科普列表页（二级页面）-->
+<view class="flex-col page">
+  <!-- 主内容区 -->
+  <view class="flex-col content">
+    <!-- 标签筛选栏 -->
+    <view class="flex-col tag-section">
+      <view class="flex-row justify-between items-center self-stretch tag-bar">
+        <view
+          wx:for="{{tags}}"
+          wx:key="key"
+          class="tag-item-wrap"
+          data-index="{{index}}"
+          bindtap="onTagTap"
+          id="tag-{{index}}"
+        >
+          <text class="tag-item {{currentTagIndex === index ? 'tag-active' : ''}}">{{item.name}}</text>
+          <!-- 选中指示器 -->
+          <view class="tag-indicator {{currentTagIndex === index ? 'indicator-active' : ''}}"></view>
+        </view>
+        <image
+          class="expand-icon"
+          src="/images/icons/arrow-down.svg"
+          bindtap="onExpandTags"
+        />
+      </view>
+    </view>
+
+    <!-- 文章列表 -->
+    <view class="flex-col article-list">
+      <!-- 加载中 -->
+      <view wx:if="{{isLoading}}" class="loading-wrap">
+        <text>加载中...</text>
+      </view>
+
+      <!-- 文章卡片列表 -->
+      <block wx:else>
+        <view
+          wx:for="{{articles}}"
+          wx:key="id"
+          class="{{index > 0 ? 'mt-26' : ''}} flex-col article-card"
+          data-id="{{item.id}}"
+          bindtap="onArticleTap"
+        >
+          <!-- 文章封面 -->
+          <image
+            class="article-cover"
+            src="{{item.coverUrl}}"
+            mode="aspectFill"
+          />
+          <!-- 文章信息栏 -->
+          <view class="flex-col article-info">
+            <!-- 标题和摘要 -->
+            <text class="article-title">{{item.title}}</text>
+            <text class="article-summary">{{item.summary}}</text>
+            <!-- 底部：标签、浏览量、点赞 -->
+            <view class="flex-row justify-between items-center article-meta">
+              <view class="flex-row items-center">
+                <text class="article-tag" wx:if="{{item.tag}}">#{{item.tag}}</text>
+              </view>
+              <view class="flex-row items-center">
+                <view class="flex-row items-center" data-id="{{item.id}}" data-index="{{index}}" catchtap="onLikeTap">
+                  <image class="like-icon" src="/images/icons/like.svg" />
+                  <text class="count-text">{{item.likeCount || 0}}</text>
+                </view>
+                <view class="flex-row items-center ml-24">
+                  <image class="view-icon" src="/images/icons/view.svg" />
+                  <text class="count-text">{{item.viewCount || 0}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 加载更多状态 -->
+        <view wx:if="{{isLoadingMore}}" class="loading-more">
+          <text>加载中...</text>
+        </view>
+        <view wx:elif="{{!hasNext && articles.length > 0}}" class="no-more">
+          <text>- 没有更多了 -</text>
+        </view>
+        <view wx:elif="{{articles.length === 0}}" class="empty">
+          <text>暂无文章</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 底部安全区域 -->
+  <view class="safe-bottom"></view>
+</view>

@@ -1,0 +1,98 @@
+/* pages/phone-login/phone-login.wxss */
+
+.page {
+  padding-bottom: 200rpx;
+  background-color: #ffffff;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+.image {
+  width: 100vw;
+  height: 11.7333vw;
+}
+
+.group {
+  padding: 0 40rpx;
+}
+
+.text {
+  color: #217aff;
+  font-size: 80rpx;
+  font-family: SourceHanSansCN;
+  font-weight: 700;
+  line-height: 76.64rpx;
+}
+
+.group_2 {
+  line-height: 29.66rpx;
+}
+
+.font {
+  font-size: 32rpx;
+  font-family: SourceHanSansCN;
+  line-height: 29.66rpx;
+}
+
+.text_2 {
+  color: #c4c4c4;
+}
+
+/* 微信手机号登录按钮 */
+.wechat-phone-btn {
+  margin-top: 120rpx;
+  padding: 0;
+  height: 98rpx;
+  background-color: #07c160;
+  border-radius: 49rpx;
+  box-shadow: 0rpx 26rpx 42rpx -32rpx #07c16085;
+  line-height: 98rpx;
+  border: none;
+}
+
+.wechat-phone-btn::after {
+  border: none;
+}
+
+.wechat-phone-btn.disabled {
+  opacity: 0.6;
+}
+
+.wechat-icon {
+  width: 44rpx;
+  height: 44rpx;
+  margin-right: 16rpx;
+}
+
+.btn-text {
+  color: #ffffff;
+  font-size: 32rpx;
+  font-family: SourceHanSansCN;
+  font-weight: 500;
+}
+
+/* 提示文案 */
+.tips-section {
+  margin-top: 48rpx;
+  text-align: center;
+}
+
+.tips-text {
+  font-size: 24rpx;
+  color: #c4c4c4;
+  font-family: SourceHanSansCN;
+}
+
+/* 返回链接 */
+.back-link {
+  margin-top: 64rpx;
+  text-align: center;
+}
+
+.back-text {
+  font-size: 28rpx;
+  color: #217aff;
+  font-family: SourceHanSansCN;
+}

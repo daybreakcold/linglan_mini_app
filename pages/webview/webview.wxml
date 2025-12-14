@@ -1,0 +1,41 @@
+<!--pages/webview/webview.wxml-->
+<!-- 普通网页 -->
+<web-view src="{{url}}" wx:if="{{url && !isWecomLink}}"></web-view>
+
+<!-- 企业微信二维码页 -->
+<view class="wecom-page" wx:if="{{isWecomLink}}">
+  <view class="wecom-icon">
+    <text class="icon-text">🏢</text>
+  </view>
+  <text class="wecom-title">添加企业微信</text>
+  <text class="wecom-desc">长按下方二维码识别添加</text>
+
+  <!-- 企业微信名片/二维码图片 -->
+  <view class="wecom-card-box" wx:if="{{wecomCardImage}}">
+    <image
+      class="wecom-card-image"
+      src="{{wecomCardImage}}"
+      mode="widthFix"
+      show-menu-by-longpress="true"
+      bindtap="onPreviewWecomCard"
+    />
+    <text class="wecom-card-tip">长按图片识别二维码，或点击放大预览</text>
+  </view>
+
+  <!-- 有链接时显示链接区域 -->
+  <view class="wecom-link-box" wx:if="{{wecomUrl}}">
+    <text class="wecom-link" selectable="true">{{wecomUrl}}</text>
+  </view>
+
+  <view class="wecom-actions">
+    <button class="wecom-btn" bindtap="onPreviewWecomCard">放大预览</button>
+    <button class="wecom-btn wecom-btn-outline" bindtap="onCopyWecomLink" wx:if="{{wecomUrl}}">复制链接</button>
+  </view>
+
+  <view class="wecom-tips">
+    <text class="tips-title">操作步骤：</text>
+    <text class="tips-item">1. 长按上方二维码图片，选择「识别图中二维码」</text>
+    <text class="tips-item">2. 或点击「放大预览」后长按识别</text>
+    <text class="tips-item" wx:if="{{wecomUrl}}">3. 也可复制链接在微信聊天中打开</text>
+  </view>
+</view>

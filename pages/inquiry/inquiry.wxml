@@ -1,0 +1,218 @@
+<!-- pages/inquiry/inquiry.wxml -->
+
+<!-- ==================== 原有内容开始 ==================== -->
+<!--
+<view class="flex-col page">
+  <view class="header-fixed">
+    <view class="flex-col items-start">
+      <view class="status-bar-placeholder"></view>
+      <text class="mt-48 text">问询</text>
+    </view>
+  </view>
+
+  <scroll-view class="chat-scroll-area" scroll-y="true" enhanced="true" show-scrollbar="false" style="height: {{scrollAreaHeight}}px;">
+    <view class="flex-row equal-division">
+      <view class="flex-col items-start equal-division-item section_2" bindtap="onAIInquiryTap">
+        <text class="font text_4">AI 问询</text>
+        <text class="font_2 text_2 mt-5">3分钟咨询</text>
+      </view>
+      <view class="ml-12 flex-col items-start equal-division-item section_3" bindtap="onHealthAssistantTap">
+        <text class="font text_5">健康助理</text>
+        <text class="mt-8 font_2 text_2">VIP深度专属</text>
+      </view>
+    </view>
+
+    <view class="loading-container" wx:if="{{isLoading}}">
+      <text class="loading-text">加载中...</text>
+    </view>
+
+    <block wx:else>
+      <view class="mt-20 flex-col" wx:if="{{messages.length > 1}}">
+        <block wx:for="{{messages}}" wx:key="id" wx:if="{{index > 0}}">
+          <view class="flex-col self-stretch group_6 mt-6" wx:if="{{item.role === 'USER'}}">
+            <view class="flex-row justify-end self-stretch">
+              <view class="flex-col justify-start items-end text-wrapper_3">
+                <rich-text class="font_4 text_12 md-content" nodes="{{item.htmlContent}}"></rich-text>
+              </view>
+              <image
+                class="image_3 ml-3"
+                src="{{user.avatar}}"
+              />
+            </view>
+            <text class="self-end font_5 text_13 mt-5">{{user.name}}</text>
+          </view>
+
+          <view class="mt-6 flex-row self-stretch" wx:if="{{item.role === 'ASSISTANT'}}">
+            <image
+              class="image_3"
+              src="{{doctor.avatar}}"
+            />
+            <view class="ml-8 flex-col justify-start text-wrapper_4">
+              <rich-text class="font_4 text_14 md-content" nodes="{{item.htmlContent}}"></rich-text>
+            </view>
+          </view>
+          <text class="self-start font_5 mt-5" wx:if="{{item.role === 'ASSISTANT'}}">{{doctor.name}}</text>
+        </block>
+      </view>
+
+      <view class="mt-6 flex-row self-stretch" wx:if="{{isSending}}">
+        <image
+          class="image_3"
+          src="{{doctor.avatar}}"
+        />
+        <view class="ml-8 flex-col justify-start text-wrapper_4 typing-bubble">
+          <text class="font_4 text_14">正在输入...</text>
+        </view>
+      </view>
+    </block>
+    <view class="scroll-bottom-spacer"></view>
+  </scroll-view>
+
+  <view class="flex-row items-center group_7">
+    <view class="flex-row justify-between items-center flex-1 section_5">
+      <input
+        class="font_4 input-field"
+        placeholder="请输入信息"
+        placeholder-class="text_16"
+        value="{{inputValue}}"
+        bindinput="onInputChange"
+        bindconfirm="onSend"
+        confirm-type="send"
+      />
+      <image
+        class="image_5"
+        src="https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=91f7d692ddf0d14897998f8be68ae69c.png"
+        bindtap="onSend"
+      />
+    </view>
+    <image
+      class="ml-12 shrink-0 image_5"
+      src="https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=7039887ecc71c08bc70ad66d048183d8.png"
+    />
+  </view>
+</view>
+-->
+<!-- ==================== 原有内容结束 ==================== -->
+
+<!-- ==================== 新样式（参考 inquiry-chat）==================== -->
+<view class="flex-col page">
+  <!-- 顶部固定区域：标题 -->
+  <view class="header-fixed">
+    <view class="flex-col items-start">
+      <!-- 状态栏占位 -->
+      <view class="status-bar-placeholder"></view>
+      <text class="mt-48 title-text">问询</text>
+    </view>
+  </view>
+
+  <!-- 消息列表区域 -->
+  <scroll-view
+    class="message-list"
+    scroll-y
+    scroll-into-view="{{scrollToView}}"
+    scroll-with-animation
+    enhanced
+    show-scrollbar="{{false}}"
+    bindscrolltoupper="onScrollToUpper"
+    style="height: {{scrollAreaHeight}}px;"
+  >
+    <!-- 加载更多历史提示 -->
+    <view class="loading-more" wx:if="{{isLoadingHistory}}">
+      <text class="loading-text">加载历史消息...</text>
+    </view>
+    <view class="history-tip" wx:elif="{{historyHasMore}}">
+      <text class="history-tip-text">下拉加载更多历史</text>
+    </view>
+
+    <!-- 快捷问题提示（仅在首次显示） -->
+    <view class="quick-questions" wx:if="{{messages.length <= 1 && initialized}}">
+      <text class="quick-title">您可以尝试问我：</text>
+      <view class="quick-list">
+        <view
+          class="quick-item"
+          wx:for="{{quickQuestions}}"
+          wx:key="index"
+          data-question="{{item}}"
+          bindtap="onQuickQuestion"
+        >
+          <text class="quick-text">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 消息列表 -->
+    <view class="messages">
+      <view
+        class="message-item {{item.role === 'USER' ? 'user' : 'assistant'}}"
+        wx:for="{{messages}}"
+        wx:key="id"
+        id="{{item.id}}"
+      >
+        <!-- 医生消息 -->
+        <block wx:if="{{item.role === 'ASSISTANT'}}">
+          <view class="avatar-wrap">
+            <image class="avatar" src="{{doctor.avatar}}" mode="aspectFill"></image>
+          </view>
+          <view class="message-content">
+            <view class="message-header">
+              <text class="message-name">{{doctor.name}}</text>
+              <text class="message-time">{{item.timestamp}}</text>
+            </view>
+            <view class="message-bubble assistant-bubble">
+              <rich-text class="message-text md-content" nodes="{{item.htmlContent}}"></rich-text>
+            </view>
+          </view>
+        </block>
+
+        <!-- 用户消息 -->
+        <block wx:if="{{item.role === 'USER'}}">
+          <view class="avatar-wrap">
+            <image class="avatar" src="/images/icons/avatar-user.svg" mode="aspectFill"></image>
+          </view>
+          <view class="message-content">
+            <view class="message-header user-header">
+              <text class="message-name">我</text>
+              <text class="message-time">{{item.timestamp}}</text>
+            </view>
+            <view class="message-bubble user-bubble">
+              <rich-text class="message-text user-text md-content" nodes="{{item.htmlContent}}"></rich-text>
+            </view>
+          </view>
+        </block>
+      </view>
+
+      <!-- 正在输入提示 -->
+      <view class="typing-indicator" wx:if="{{isSending}}">
+        <view class="avatar-wrap">
+          <image class="avatar" src="{{doctor.avatar}}" mode="aspectFill"></image>
+        </view>
+        <view class="typing-bubble">
+          <view class="typing-dot"></view>
+          <view class="typing-dot"></view>
+          <view class="typing-dot"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部占位 -->
+    <view class="message-bottom" id="scroll-bottom"></view>
+  </scroll-view>
+
+  <!-- 底部输入区域 -->
+  <view class="input-area">
+    <view class="input-wrap">
+      <input
+        class="input"
+        placeholder="请输入您的健康问题..."
+        placeholder-class="input-placeholder"
+        value="{{inputValue}}"
+        bindinput="onInputChange"
+        bindconfirm="onSend"
+        confirm-type="send"
+      />
+      <view class="send-btn {{inputValue ? 'active' : ''}}" bindtap="onSend">
+        <text class="send-text">发送</text>
+      </view>
+    </view>
+  </view>
+</view>

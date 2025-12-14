@@ -1,0 +1,316 @@
+<!--pages/index/index.wxml-->
+<view class="flex-col page">
+  <!-- 顶部背景图 -->
+  <image
+    class="image"
+    src="/images/index-bg.png"
+    mode="widthFix"
+  />
+
+  <!-- 加载中 -->
+  <view class="flex-col items-center justify-center loading-wrap" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text mt-10">加载中...</text>
+  </view>
+
+  <!-- 主要内容区 -->
+  <view class="flex-col group" wx:else>
+    <!-- 顶部标题栏 -->
+    <view class="flex-col">
+      <view class="flex-row justify-between group_2">
+        <text class="text">灵壹健康</text>
+        <!-- <view class="flex-row group_3">
+          <image
+            class="image_2"
+            src="/images/icons/search.svg"
+            bindtap="onSearch"
+          />
+          <image
+            class="image_2 ml-7"
+            src="/images/icons/message.svg"
+            bindtap="onMessage"
+          />
+        </view> -->
+      </view>
+
+      <!-- 两大功能卡片 -->
+      <view class="mt-12 flex-row equal-division">
+        <!-- 健康咨询卡片 -->
+        <view class="flex-col equal-division-item section" bindtap="onHealthConsult">
+          <view class="flex-col items-start">
+            <text class="font text_2">健康咨询</text>
+            <text class="mt-12 font_2 text_4">100+专家团队</text>
+            <text class="mt-12 font_2 text_6">1000+医生</text>
+          </view>
+          <view class="flex-col mt-25">
+            <view class="flex-row">
+              <view class="flex-col justify-start items-center text-wrapper">
+                <text class="font_3 text_7">慢病</text>
+              </view>
+              <view class="flex-col justify-start items-center text-wrapper ml-9">
+                <text class="font_3 text_8">理疗</text>
+              </view>
+            </view>
+            <view class="flex-row mt-9">
+              <view class="flex-col justify-start items-center text-wrapper">
+                <text class="font_3 text_11">中药</text>
+              </view>
+              <view class="flex-col justify-start items-center text-wrapper ml-9">
+                <text class="font_3 text_12">保养</text>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 养身课堂卡片 -->
+        <view class="ml-16 flex-col equal-division-item section_2" bindtap="onHealthClass">
+          <view class="flex-col self-start group_4">
+            <text class="self-start font text_3">养身课堂</text>
+            <text class="mt-12 self-stretch font_3 text_5">3000+ 养身课堂 20000+ 专业问答</text>
+          </view>
+          <view class="flex-col self-stretch mt-43">
+            <view class="flex-row">
+              <view class="flex-col justify-start items-center text-wrapper_2">
+                <text class="font_3 text_9">修生</text>
+              </view>
+              <view class="ml-12 flex-col justify-start items-center text-wrapper_2">
+                <text class="font_3 text_10">调养</text>
+              </view>
+            </view>
+            <view class="flex-row mt-9">
+              <view class="flex-col justify-start items-center text-wrapper_2">
+                <text class="font_3 text_13">易经</text>
+              </view>
+              <view class="ml-12 flex-col justify-start items-center text-wrapper_2">
+                <text class="font_3 text_14">活络</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 三个高亮统计卡片 -->
+    <view class="flex-row equal-division_2">
+      <!-- 有接口数据时 -->
+      <block wx:if="{{highlights.length > 0}}">
+        <view
+          class="flex-col items-center section_3 equal-division-item_2 {{index > 0 ? 'ml-5' : ''}}"
+          wx:for="{{highlights}}"
+          wx:key="index"
+          data-index="{{index}}"
+          bindtap="onHighlightTap"
+        >
+          <image
+            class="image_2"
+            src="{{item.type === '课程' ? '/images/icons/lesson.svg' : (item.type === 'AI' ? '/images/icons/asking.svg' : '/images/icons/learning.svg')}}"
+          />
+          <text class="mt-10 font_4">{{item.name}}</text>
+        </view>
+      </block>
+      <!-- 默认数据 -->
+      <block wx:else>
+        <view class="flex-col items-center section_3 equal-division-item_2" data-index="0" bindtap="onHighlightTap">
+          <image class="image_2" src="/images/icons/lesson.svg" />
+          <text class="mt-10 font_4">养身第一课</text>
+        </view>
+        <view class="flex-col items-center section_3 equal-division-item_2 ml-5" data-index="1" bindtap="onHighlightTap">
+          <image class="image_2" src="/images/icons/learning.svg" />
+          <text class="mt-10 font_4">276人正在学习</text>
+        </view>
+        <view class="flex-col items-center section_3 equal-division-item_2 ml-5" data-index="2" bindtap="onHighlightTap">
+          <image class="image_2" src="/images/icons/asking.svg" />
+          <text class="mt-10 font_4">515人正在提问</text>
+        </view>
+      </block>
+    </view>
+
+    <!-- 下方内容区 -->
+    <view class="flex-col group_5">
+      <!-- 企业微信入口 -->
+      <view class="flex-row justify-between items-center relative section_4" bindtap="onAddWechat" wx:if="{{leadAssistant.enabled}}">
+        <image class="image_3" src="/images/icons/wecom.svg" />
+        <text class="font_4 text_15">添加专属微信群，找老师领取免费课程</text>
+      </view>
+
+      <!-- 课程标签区域 -->
+      <view class="flex-row group_6">
+        <block wx:if="{{courseTags.length > 0}}">
+          <view
+            class="flex-col justify-start items-center shrink-0 {{currentTagIndex === index ? 'text-wrapper_3-active' : 'text-wrapper_3'}} {{index > 0 ? 'view' : ''}}"
+            wx:for="{{courseTags}}"
+            wx:key="tagName"
+            wx:if="{{index < 3}}"
+            data-index="{{index}}"
+            bindtap="onCourseTagTap"
+          >
+            <text class="font_5 {{currentTagIndex === index ? 'text_16-active' : 'text_16'}}"># {{item.displayName}}</text>
+          </view>
+        </block>
+        <block wx:else>
+          <view class="flex-col justify-start items-center shrink-0 text-wrapper_3">
+            <text class="font_5 text_16"># 健胃</text>
+          </view>
+          <view class="flex-col justify-start items-center shrink-0 text-wrapper_3 view">
+            <text class="font_5 text_16"># 补脑</text>
+          </view>
+          <view class="flex-col justify-start items-center shrink-0 text-wrapper_4">
+            <text class="font_5"># 重阳节吃什么</text>
+          </view>
+        </block>
+      </view>
+
+      <!-- 灵医小课堂 - 跑马灯轮播 -->
+      <view class="flex-col section_5" wx:if="{{courseTags.length > 0 && courseTags[currentTagIndex].courses.length > 0}}">
+        <view class="flex-row items-center justify-between">
+          <view class="flex-row items-center">
+            <text class="text_17">灵医小课堂</text>
+            <text class="lesson-tag ml-12">{{courseTags[currentTagIndex].displayName}}</text>
+          </view>
+          <!-- 指示点 -->
+          <view class="swiper-dots" wx:if="{{courseTags[currentTagIndex].courses.length > 1}}">
+            <view
+              class="dot {{currentCourseIndex === index ? 'active' : ''}}"
+              wx:for="{{courseTags[currentTagIndex].courses}}"
+              wx:key="courseId"
+              wx:if="{{index < 5}}"
+            ></view>
+          </view>
+        </view>
+        <!-- Swiper 轮播 -->
+        <swiper
+          class="course-swiper"
+          autoplay="{{true}}"
+          circular="{{true}}"
+          interval="4000"
+          duration="500"
+          bindchange="onCourseSwipeChange"
+        >
+          <swiper-item wx:for="{{courseTags[currentTagIndex].courses}}" wx:key="courseId">
+            <view class="course-card" data-course="{{item}}" bindtap="onCourseTap">
+              <text class="course-title">{{item.title}}</text>
+              <text class="course-summary">{{item.summary}}</text>
+              <!-- 章节信息 -->
+              <view class="section-info" wx:if="{{item.firstSectionTitle}}">
+                <view class="section-divider"></view>
+                <text class="section-title">{{item.firstSectionTitle}}</text>
+                <text class="section-summary">{{item.firstSectionSummary}}</text>
+              </view>
+              <view class="course-action">
+                <text class="action-text">开始学习 ›</text>
+              </view>
+            </view>
+          </swiper-item>
+        </swiper>
+      </view>
+      <!-- 默认小课堂 -->
+      <view class="flex-col section_5" bindtap="onLessonDetail" wx:else>
+        <text class="self-start text_17">灵医小课堂</text>
+        <text class="self-start font_4 text_18">初冬季节的时候，煲什么汤对肺部养身是最好的？</text>
+        <text class="self-center font_6 text_19">听听中国医科大学附属研究院陈庆荣教授是怎么说的。</text>
+      </view>
+
+      <!-- 场景对话标签 -->
+      <view class="flex-row group_7">
+        <block wx:if="{{dialogScenarios.length > 0}}">
+          <view
+            class="flex-col justify-start items-center shrink-0 {{currentScenario && currentScenario.templateId === item.templateId ? 'text-wrapper_5-active' : 'text-wrapper_5'}} {{index > 0 ? 'view_2' : ''}}"
+            wx:for="{{dialogScenarios}}"
+            wx:key="templateId"
+            wx:if="{{index < 3}}"
+            data-index="{{index}}"
+            bindtap="onScenarioTagTap"
+          >
+            <text class="font_5 {{currentScenario && currentScenario.templateId === item.templateId ? 'text_16-active' : 'text_16'}}"># {{item.displayTag}}</text>
+          </view>
+        </block>
+        <block wx:else>
+          <view class="flex-col justify-start items-center shrink-0 text-wrapper_5">
+            <text class="font_5 text_16"># 小儿</text>
+          </view>
+          <view class="flex-col justify-start items-center shrink-0 text-wrapper_5 view_2">
+            <text class="font_5 text_16"># 颈椎</text>
+          </view>
+          <view class="flex-col justify-start items-center shrink-0 text-wrapper_6">
+            <text class="font_5"># 咳嗽老不好</text>
+          </view>
+        </block>
+      </view>
+
+      <!-- 场景对话区域 -->
+      <view class="flex-col group_8" bindtap="onScenarioTap" wx:if="{{currentScenario}}">
+        <!-- 场景标题卡片 -->
+        <view class="scenario-header">
+          <view class="flex-row items-center">
+            <text class="scenario-title">{{currentScenario.title}}</text>
+            <text class="scenario-tag ml-12">{{currentScenario.displayTag}}</text>
+          </view>
+          <text class="scenario-desc mt-12">{{currentScenario.description}}</text>
+        </view>
+
+        <!-- 对话内容区域 -->
+        <view class="flex-row mt-20">
+          <view class="flex-col flex-1 section_6">
+            <!-- 遍历对话消息（跳过 SYSTEM） -->
+            <block wx:for="{{currentScenario.messages}}" wx:key="index">
+              <!-- 用户消息 -->
+              <view class="flex-row {{index > 0 ? 'mt-16' : ''}}" wx:if="{{item.role === 'USER'}}">
+                <view class="flex-col items-center shrink-0 self-start">
+                  <image class="image_4" src="/images/icons/avatar-user.svg" />
+                  <text class="font_7 text_21 mt-5">用户</text>
+                </view>
+                <view class="ml-22 flex-col justify-start shrink-0 text-wrapper_7">
+                  <text class="font_6 text_20">{{item.content}}</text>
+                </view>
+              </view>
+              <!-- 医生回复 -->
+              <view class="flex-row {{index > 0 ? 'mt-16' : ''}}" wx:if="{{item.role === 'ASSISTANT'}}">
+                <view class="flex-col justify-start flex-1 text-wrapper_8">
+                  <text class="font_6 text_22">{{item.content}}</text>
+                </view>
+                <view class="ml-18 flex-col items-center self-start group_9">
+                  <image class="image_5" src="{{currentScenario.doctor.avatar}}" />
+                  <text class="font_7 mt-9">{{currentScenario.doctor.name}}</text>
+                </view>
+              </view>
+            </block>
+          </view>
+          <view class="ml-6 shrink-0 section_7"></view>
+        </view>
+
+        <!-- 点击进入对话提示 -->
+        <view class="dialog-enter-tip mt-20">
+          <text class="enter-text">点击开始咨询 ›</text>
+        </view>
+      </view>
+
+      <!-- 默认场景对话区域（无接口数据时） -->
+      <view class="flex-row group_8" wx:else>
+        <view class="flex-col flex-1 section_6">
+          <view class="flex-row">
+            <view class="flex-col items-center shrink-0 self-start">
+              <image class="image_4" src="/images/icons/avatar-user.svg" />
+              <text class="font_7 text_21 mt-5">张玉</text>
+            </view>
+            <view class="ml-22 flex-col justify-start shrink-0 text-wrapper_7">
+              <text class="font_6 text_20">我想咨询下6岁的小朋友身高1米35 是正常的吗？</text>
+            </view>
+          </view>
+          <view class="flex-row mt-16">
+            <view class="flex-col justify-start flex-1 text-wrapper_8">
+              <text class="font_6 text_22">您好，我是健高的身高管理师杨博，非常高兴为您提供身高咨询服务。根据您的描述……</text>
+            </view>
+            <view class="ml-18 flex-col items-center self-start group_9">
+              <image class="image_5" src="/images/icons/avatar-doctor.svg" />
+              <text class="font_7 mt-9">灵医生</text>
+            </view>
+          </view>
+        </view>
+        <view class="ml-6 shrink-0 section_7"></view>
+      </view>
+    </view>
+
+    <!-- 底部安全区域 -->
+    <view class="safe-bottom"></view>
+  </view>
+</view>

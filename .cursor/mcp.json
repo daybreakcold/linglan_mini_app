@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "jsdesign": {
+      "command": "jsdesign-mcp",
+      "args": ["--server", "localhost:8080"]
+    }
+  }
+}

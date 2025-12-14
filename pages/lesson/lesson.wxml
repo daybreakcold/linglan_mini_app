@@ -1,0 +1,258 @@
+<!--pages/lesson/lesson.wxml-->
+<view class="flex-col page">
+  <view class="flex-col group">
+    <!-- 顶部 banner 图片 -->
+    <image
+      class="banner-image"
+      src="https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=0f49604074d3cdf73ed289a441978c91.png"
+      mode="aspectFill"
+    />
+
+    <view class="mt-16 flex-col group_2">
+      <text class="self-start text">健康课堂</text>
+
+      <!-- 一级标签 -->
+      <view class="flex-col self-stretch group_4">
+        <view class="flex-row justify-between items-center self-stretch group_5">
+          <block wx:if="{{courseTags.length > 0}}">
+            <text
+              class="{{selectedTagIndex === index ? 'text_3' : 'font'}}"
+              wx:for="{{courseTags}}"
+              wx:key="primaryTag"
+              data-index="{{index}}"
+              bindtap="onTagClick"
+            >{{item.primaryName}}</text>
+          </block>
+          <block wx:else>
+            <text class="text_3">视频</text>
+            <text class="font text_4">#标签</text>
+            <text class="font text_5">生活</text>
+            <text class="font text_6">母婴</text>
+            <text class="font text_7">睡眠</text>
+          </block>
+          <image
+            class="image_3 {{secondaryTagsExpanded ? '' : 'arrow-collapsed'}}"
+            src="/images/icons/arrow-down.svg"
+            bindtap="toggleSecondaryTags"
+          />
+        </view>
+        <view class="self-start section_2"></view>
+      </view>
+
+      <!-- 二级标签 -->
+      <view class="flex-row self-stretch group_6 view" wx:if="{{secondaryTagsExpanded}}">
+        <scroll-view scroll-x class="secondary-tags-scroll">
+          <view class="secondary-tags-inner">
+            <block wx:if="{{courseTags.length > 0 && courseTags[selectedTagIndex].secondaryTags.length > 0}}">
+              <view
+                class="{{index === 0 ? '' : 'ml-12'}} flex-col justify-start items-center shrink-0 text-wrapper {{selectedSecondaryTagIndex === index ? 'active' : ''}}"
+                wx:for="{{courseTags[selectedTagIndex].secondaryTags}}"
+                wx:key="code"
+                data-index="{{index}}"
+                data-code="{{item.code}}"
+                bindtap="onSecondaryTagClick"
+              >
+                <text class="font_2">{{item.name}}</text>
+              </view>
+            </block>
+            <block wx:else>
+              <view class="flex-col justify-start items-center shrink-0 text-wrapper">
+                <text class="font_2">急救手册</text>
+              </view>
+              <view class="ml-12 flex-col justify-start items-center shrink-0 text-wrapper">
+                <text class="font_2 text_8">名医讲坛</text>
+              </view>
+              <view class="ml-12 flex-col justify-start items-center shrink-0 text-wrapper_2">
+                <text class="font_2 text_9">日常病情预防</text>
+              </view>
+              <view class="ml-12 flex-col justify-start items-center shrink-0 text-wrapper_3">
+                <text class="font_2 text_10">免费问诊</text>
+              </view>
+            </block>
+          </view>
+        </scroll-view>
+      </view>
+
+      <!-- 课程列表区域1 - 带封面和讲师信息的课程卡片 -->
+      <view class="flex-col self-stretch group_6 view_2">
+        <view class="flex-row justify-between items-center section-header">
+          <text class="section-main-title">课程</text>
+          <!-- <view class="flex-row items-center">
+            <text class="section-title">更多</text>
+            <image
+              class="arrow-right"
+              src="/images/icons/arrow-right.svg"
+            />
+          </view> -->
+        </view>
+        <scroll-view scroll-x class="mt-20 course-scroll">
+          <view class="flex-row course-list">
+            <block wx:if="{{courseList.length > 0}}">
+              <view
+                class="{{index === 0 ? '' : 'ml-18'}} flex-col group_8 horiz-list-item"
+                wx:for="{{courseList}}"
+                wx:key="id"
+                data-course="{{item}}"
+                bindtap="onCourseTap"
+              >
+                <view class="flex-col items-start self-stretch section_3" style="background-image: url('{{item.coverUrl || defaultCoverUrl}}');">
+                  <image
+                    class="tag-badge"
+                    src="https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=a7680ad920a9cc9a7b9dff9138b660d0.png"
+                    wx:if="{{item.tag}}"
+                  />
+                  <view class="flex-row items-center instructor-info mt-102" wx:if="{{item.instructorAvatar || item.instructorName}}">
+                    <image
+                      class="instructor-avatar"
+                      src="{{item.instructorAvatar || '/images/default-avatar.png'}}"
+                    />
+                    <text class="ml-6 font_3">{{item.instructorName || '讲师'}}</text>
+                  </view>
+                </view>
+                <text class="self-center font_4 mt-13">{{item.title}}</text>
+              </view>
+            </block>
+            <block wx:else>
+              <!-- 默认占位课程卡片 -->
+              <view class="flex-col group_8 horiz-list-item">
+                <view class="flex-col items-start self-stretch section_3" style="background-image: url('https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=ea10a3bb3527a5c1cbbaad2f29e4b9ef.png');">
+                  <image
+                    class="tag-badge"
+                    src="https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=a7680ad920a9cc9a7b9dff9138b660d0.png"
+                  />
+                  <view class="flex-row items-center instructor-info mt-102">
+                    <image
+                      class="instructor-avatar"
+                      src="https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=709f717bb639d9bfd3af49b901c955a4.png"
+                    />
+                  </view>
+                </view>
+                <text class="self-center font_4 mt-13">男性医疗健康</text>
+              </view>
+              <view class="ml-18 flex-col group_8 horiz-list-item">
+                <view class="flex-col items-start self-stretch section_4" style="background-image: url('https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=c8b8b610fcd79a1d4e180c89001e0db5.png');">
+                  <image
+                    class="tag-badge"
+                    src="https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=a7680ad920a9cc9a7b9dff9138b660d0.png"
+                  />
+                  <view class="flex-row items-center instructor-info mt-102">
+                    <image
+                      class="instructor-avatar"
+                      src="https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=c1461bf7d95491cd5afa613e8176f52b.png"
+                    />
+                    <text class="ml-6 font_3">Vata教授</text>
+                  </view>
+                </view>
+                <text class="self-center font_4 mt-13">女性医疗健康</text>
+              </view>
+              <view class="ml-18 flex-col group_8 horiz-list-item">
+                <view class="flex-col items-start self-stretch section_5" style="background-image: url('https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=821e310d650506025661ec27a0bfbccf.png');">
+                  <image
+                    class="tag-badge"
+                    src="https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=a7680ad920a9cc9a7b9dff9138b660d0.png"
+                  />
+                  <view class="flex-row items-center instructor-info mt-102">
+                    <image
+                      class="instructor-avatar"
+                      src="https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=c1461bf7d95491cd5afa613e8176f52b.png"
+                    />
+                    <text class="ml-6 font_3">艾特勒医药教授</text>
+                  </view>
+                </view>
+                <text class="self-center font_4 mt-13">日常生活习惯</text>
+              </view>
+            </block>
+          </view>
+        </scroll-view>
+      </view>
+
+      <!-- 科普文章列表 -->
+      <view class="flex-col self-stretch group_6 view_3">
+        <view class="flex-row justify-between items-center section-header">
+          <text class="section-main-title">科普</text>
+          <!-- <view class="flex-row items-center" bindtap="onMoreArticles">
+            <text class="section-title">更多</text>
+            <image
+              class="arrow-right"
+              src="/images/icons/arrow-right.svg"
+            />
+          </view> -->
+        </view>
+        <scroll-view scroll-x class="course-scroll mt-25">
+          <view class="flex-row article-list">
+            <block wx:if="{{articleList.length > 0}}">
+              <view
+                class="{{index === 0 ? '' : 'ml-18'}} flex-col group_8 article-item"
+                wx:for="{{articleList}}"
+                wx:key="id"
+                data-id="{{item.id}}"
+                bindtap="onArticleTap"
+              >
+                <image
+                  class="article-cover"
+                  src="{{item.coverUrl}}"
+                  mode="aspectFill"
+                />
+                <view class="article-info-bar">
+                  <text class="article-title">{{item.title}}</text>
+                  <view class="flex-row items-center article-meta">
+                    <text class="article-tag" wx:if="{{item.tag}}">{{item.tag}}</text>
+                    <text class="article-views">{{item.viewCount || 0}}阅读</text>
+                  </view>
+                </view>
+              </view>
+            </block>
+            <block wx:else>
+              <!-- 默认占位文章 -->
+              <view class="flex-col group_8 article-item">
+                <image
+                  class="article-cover"
+                  src="https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=dbbb93210537c11ea5f871bbb070cb4f.png"
+                  mode="aspectFill"
+                />
+                <view class="article-info-bar">
+                  <text class="article-title">健康养生小知识</text>
+                  <view class="flex-row items-center article-meta">
+                    <text class="article-tag">健康</text>
+                    <text class="article-views">128阅读</text>
+                  </view>
+                </view>
+              </view>
+              <view class="ml-18 flex-col group_8 article-item">
+                <image
+                  class="article-cover"
+                  src="https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=6a750f56f06b3af6d81b837f51a04959.png"
+                  mode="aspectFill"
+                />
+                <view class="article-info-bar">
+                  <text class="article-title">春季养生指南</text>
+                  <view class="flex-row items-center article-meta">
+                    <text class="article-tag">养生</text>
+                    <text class="article-views">256阅读</text>
+                  </view>
+                </view>
+              </view>
+              <view class="ml-18 flex-col group_8 article-item">
+                <image
+                  class="article-cover"
+                  src="https://ide.code.fun/api/image?token=693067d49520a30011f76066&name=c6ad4670599e6b34caa97ebe678ceee0.png"
+                  mode="aspectFill"
+                />
+                <view class="article-info-bar">
+                  <text class="article-title">日常保健技巧</text>
+                  <view class="flex-row items-center article-meta">
+                    <text class="article-tag">保健</text>
+                    <text class="article-views">89阅读</text>
+                  </view>
+                </view>
+              </view>
+            </block>
+          </view>
+        </scroll-view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部安全区域 -->
+  <view class="safe-bottom"></view>
+</view>

@@ -1,0 +1,135 @@
+<view class="page">
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{isLoading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 课程内容 -->
+  <scroll-view scroll-y class="content" wx:elif="{{course}}">
+    <!-- 视频播放区域 -->
+    <view class="video-cover-wrapper">
+      <!-- 视频播放器 -->
+      <video
+        wx:if="{{showVideo && currentVideo}}"
+        class="video-player"
+        src="{{currentVideo.videoUrl}}"
+        poster="{{currentVideo.coverUrl || course.coverUrl}}"
+        title="{{currentVideo.title}}"
+        autoplay="{{true}}"
+        show-fullscreen-btn="{{true}}"
+        show-play-btn="{{true}}"
+        controls="{{true}}"
+        bindended="onVideoEnded"
+        binderror="onVideoError"
+      ></video>
+      <!-- 封面图 -->
+      <block wx:else>
+        <image
+          class="video-cover"
+          src="{{course.coverUrl || '/images/course-default.png'}}"
+          mode="aspectFill"
+        ></image>
+        <view class="play-btn" bindtap="onPlayVideo">
+          <view class="play-icon">
+            <text class="play-triangle">▶</text>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <!-- 课程信息区域 -->
+    <view class="course-info-section">
+      <!-- 标签和统计 -->
+      <view class="course-meta-row">
+        <view class="member-tag">会员免费</view>
+        <view class="stats-row">
+          <image class="stats-icon" src="/images/icons/view.svg" mode="aspectFit"></image>
+          <text class="stats-text">{{course.viewCount || 0}}</text>
+          <image class="stats-icon star-icon" src="/images/icons/star.svg" mode="aspectFit"></image>
+          <text class="stats-text">{{course.rating || '4.5'}}</text>
+        </view>
+      </view>
+
+      <!-- 课程标题 -->
+      <text class="course-title">{{course.title}}</text>
+
+      <!-- 课程描述 -->
+      <view class="course-desc">
+        <text class="desc-text">{{course.intro}}</text>
+      </view>
+      <view class="course-desc" wx:if="{{course.description}}">
+        <text class="desc-text secondary">{{course.description}}</text>
+      </view>
+    </view>
+
+    <!-- 本课程包含 -->
+    <view class="course-includes-section">
+      <text class="section-title">本课程包含</text>
+      <view class="includes-list">
+        <!-- 视频课程（有视频时显示） -->
+        <view class="include-item" wx:if="{{course.videoCount > 0}}">
+          <view class="include-icon-wrapper video-icon-bg">
+            <image class="include-icon" src="/images/icons/video-camera.svg" mode="aspectFit"></image>
+          </view>
+          <text class="include-text">{{course.totalDurationText}}小时视频课程内容</text>
+        </view>
+        <!-- 图文内容（有文章时显示） -->
+        <view class="include-item" wx:if="{{course.articleCount > 0}}">
+          <view class="include-icon-wrapper article-icon-bg">
+            <image class="include-icon" src="/images/icons/document.svg" mode="aspectFit"></image>
+          </view>
+          <text class="include-text">{{course.articleCount}}篇图文内容</text>
+        </view>
+        <!-- 课程节数 -->
+        <view class="include-item">
+          <view class="include-icon-wrapper offline-icon-bg">
+            <image class="include-icon" src="/images/icons/list.svg" mode="aspectFit"></image>
+          </view>
+          <text class="include-text">共{{course.sectionCount}}节课</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 课程详情 -->
+    <view class="course-detail-section">
+      <text class="section-title">课程详情</text>
+      <view class="section-list">
+        <view
+          class="section-item {{item.available ? '' : 'disabled'}}"
+          wx:for="{{course.sections}}"
+          wx:key="id"
+          data-index="{{index}}"
+          data-section="{{item}}"
+          bindtap="onSectionTap"
+        >
+          <view class="section-content">
+            <view class="section-header">
+              <text class="section-seq">第{{item.seq < 10 ? '0' + item.seq : item.seq}}课</text>
+              <text class="section-name">{{item.title}}</text>
+            </view>
+            <view class="section-meta">
+              <text class="section-type" wx:if="{{item.isArticle}}">[图文]</text>
+              <text class="section-type" wx:elif="{{item.isVideo}}">[视频]</text>
+              <text class="section-duration" wx:if="{{item.durationText}}">{{item.durationText}}</text>
+              <text class="section-instructor" wx:if="{{item.instructor}}">主讲: {{item.instructor}}</text>
+              <text class="section-instructor" wx:elif="{{item.isVideo}}">主讲: {{course.instructorName || '王文清老师'}}</text>
+            </view>
+            <text class="section-status" wx:if="{{!item.available}}">课程持续开发中，敬请期待</text>
+          </view>
+          <view class="section-play-btn {{item.available ? 'active' : ''}}">
+            <text class="section-play-icon" wx:if="{{item.isVideo}}">▶</text>
+            <text class="section-play-icon" wx:else>📄</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部安全区域 -->
+    <view class="safe-area-bottom"></view>
+  </scroll-view>
+
+  <!-- 无数据 -->
+  <view class="empty-container" wx:else>
+    <text class="empty-text">课程不存在</text>
+  </view>
+</view>

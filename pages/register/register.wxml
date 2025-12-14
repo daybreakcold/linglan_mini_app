@@ -1,0 +1,87 @@
+<!--pages/register/register.wxml-->
+<view class="flex-col page">
+  <!-- 顶部状态栏图片 -->
+  <image
+    class="image"
+    src="https://ide.code.fun/api/image?token=6925da37043f1900118eae6c&name=e3b4d42d8919f509a80d34921a1601eb.png"
+  />
+
+  <view class="mt-56 flex-col group">
+    <!-- 标题区域 -->
+    <view class="flex-col items-start">
+      <text class="text">灵壹健康</text>
+      <view class="group_2 mt-15">
+        <text class="font text_2">已经有账户了吗？</text>
+        <text class="font text_3" bindtap="goToLogin">去登录！</text>
+      </view>
+    </view>
+
+    <!-- 账户名输入区域 -->
+    <view class="flex-col justify-start items-end relative group_3">
+      <text class="font_2 text_4" bindtap="goToPhoneRegister">手机注册</text>
+      <view class="flex-col justify-start items-start image-wrapper pos">
+        <image
+          class="image_2"
+          src="https://ide.code.fun/api/image?token=6925da37043f1900118eae6c&name=c71104921e1d31581bd49df71eaabfc2.png"
+        />
+        <input 
+          class="font_4 input-field ml-9"
+          type="text"
+          placeholder="请输写您的用户名"
+          placeholder-class="placeholder-text"
+          value="{{username}}"
+          bindinput="onUsernameInput"
+        />
+      </view>
+    </view>
+
+    <!-- 密码输入区域 -->
+    <view class="flex-col group_4">
+      <text class="self-start font_3 text_5">密码</text>
+      <view class="flex-row items-center self-stretch section">
+        <image
+          class="image_3"
+          src="https://ide.code.fun/api/image?token=6925da37043f1900118eae6c&name=09acd6fd01e41d8cd3b9b08e87bd0829.png"
+        />
+        <input 
+          class="font_4 text_6 ml-9 input-field"
+          type="password"
+          placeholder="请输入您的密码"
+          placeholder-class="placeholder-text"
+          value="{{password}}"
+          bindinput="onPasswordInput"
+        />
+      </view>
+
+      <!-- 协议勾选 -->
+      <view class="flex-row items-center self-stretch group_5" bindtap="toggleAgreement">
+        <image
+          class="image_4"
+          src="{{isAgreed ? 'https://ide.code.fun/api/image?token=6925da37043f1900118eae6c&name=761c56ef277fce17c01ff6872a1247a5.png' : ''}}"
+          style="background-color: {{isAgreed ? 'transparent' : '#ffffff'}}; border: 2rpx solid #c4c4c4;"
+        />
+        <view class="group_6 ml-9">
+          <text class="font_4 text_7">注册即代表您已阅读并同意</text>
+          <text class="font_2 text_8" catchtap="showAgreement">《平台协议》</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 注册按钮 -->
+    <view 
+      class="flex-col justify-start items-center text-wrapper" 
+      bindtap="onRegister"
+    >
+      <text class="font_3 text_9" wx:if="{{!isLoading}}">注册</text>
+      <text class="font_3 text_9" wx:else>注册中...</text>
+    </view>
+
+    <!-- 绑定手机分隔线 -->
+    <view class="flex-row justify-center items-center group_7">
+      <view class="section_2"></view>
+      <text class="font_4 ml-11">绑定手机</text>
+      <view class="section_2 ml-11"></view>
+    </view>
+  </view>
+</view>
+

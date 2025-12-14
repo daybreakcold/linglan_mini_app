@@ -1,0 +1,130 @@
+<view class="flex-col page">
+  <!-- 加载状态 -->
+  <view class="loading-container" wx:if="{{isLoading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <block wx:else>
+    <view class="flex-col group">
+      <view class="flex-col">
+        <view class="flex-col group_2">
+          <!-- 文章标题 -->
+          <text class="mt-32 text_2">{{article.title}}</text>
+          <!-- 文章标签 -->
+          <view class="mt-16 flex-row" wx:if="{{article.tag}}">
+            <text class="article-tag">{{article.tag}}</text>
+          </view>
+          <!-- 文章摘要 -->
+          <text class="mt-12 text_summary" wx:if="{{article.summary}}">{{article.summary}}</text>
+          <!-- 作者信息 -->
+          <view class="mt-32 flex-row justify-between items-center">
+            <view class="flex-row items-center">
+              <view class="flex-row items-center shrink-0">
+                <image
+                  class="shrink-0 image_5"
+                  src="{{article.authorAvatar || '/images/icons/avatar-doctor.svg'}}"
+                />
+                <text class="font text_3 ml-7">{{article.authorName || '健康小编'}}</text>
+              </view>
+              <text class="font_2 text_4 ml-27">{{article.publishTime}} 发布</text>
+            </view>
+            <!-- <view class="flex-row items-center">
+              <text class="font_2 text_5" bindtap="onFontSizeDecrease">A-</text>
+              <text class="ml-6 text_6" bindtap="onFontSizeIncrease">A+</text>
+            </view> -->
+          </view>
+        </view>
+      </view>
+
+      <!-- 文章内容区域 -->
+      <view class="mt-16 flex-col">
+        <!-- 封面图 -->
+        <image
+          class="self-start image_6"
+          src="{{article.coverUrl}}"
+          mode="aspectFill"
+          wx:if="{{article.coverUrl}}"
+        />
+        <view class="flex-col self-stretch group_2 mt-25">
+          <!-- 文章正文 -->
+          <rich-text class="article-content" style="font-size: {{fontSize}}rpx;" nodes="{{article.bodyHtml}}"></rich-text>
+
+          <!-- 相关评论区域 -->
+          <view class="flex-col self-stretch group_4 mt-48">
+            <view class="flex-col section">
+              <view class="section-header">
+                <text class="section-title">评论 ({{comments.length}})</text>
+              </view>
+              <!-- 评论列表 -->
+              <view class="comment-list" wx:if="{{comments.length > 0}}">
+                <view class="comment-item" wx:for="{{comments}}" wx:key="id">
+                  <image class="comment-avatar" src="{{item.avatar || '/images/default-avatar.png'}}" />
+                  <view class="comment-content">
+                    <text class="comment-author">{{item.nickname}}</text>
+                    <text class="comment-text">{{item.content}}</text>
+                    <text class="comment-time">{{item.createTime}}</text>
+                  </view>
+                </view>
+              </view>
+              <view class="empty-comments" wx:else>
+                <text class="empty-text">暂无评论，快来抢沙发吧~</text>
+              </view>
+            </view>
+
+            <!-- 互动按钮 -->
+            <view class="flex-row justify-between items-center group_5">
+              <view class="flex-row items-center section_2" bindtap="onToggleLike">
+                <image
+                  class="shrink-0 image_12"
+                  src="{{isLiked ? '/images/like-active.png' : 'https://ide.code.fun/api/image?token=6933fbfb043f1900118f7710&name=863f83ee6d043b968a2825f24f0a3ddd.png'}}"
+                />
+                <text class="text_8 ml-9">有帮助 ({{article.likeCount || 0}})</text>
+              </view>
+              <view class="flex-row items-center">
+                <text class="view-count">浏览 {{article.viewCount || 0}}</text>
+              </view>
+            </view>
+          </view>
+
+          <!-- 相关文章推荐 -->
+          <view class="flex-col self-stretch group_6" wx:if="{{relatedArticles.length > 0}}">
+            <view class="section-header mt-40">
+              <text class="section-title">相关推荐</text>
+            </view>
+            <view class="flex-col self-stretch mt-25">
+              <view
+                class="flex-row justify-between mt-16 list-item"
+                wx:for="{{relatedArticles}}"
+                wx:key="id"
+                bindtap="onArticleTap"
+                data-id="{{item.id}}"
+              >
+                <view class="flex-col flex-1 article-info">
+                  <text class="article-item-title">{{item.title}}</text>
+                  <text class="article-item-summary">{{item.summary}}</text>
+                </view>
+                <image
+                  class="self-center image_13"
+                  src="{{item.coverUrl}}"
+                  mode="aspectFill"
+                />
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部评论输入栏 -->
+    <view class="section_3 flex-row items-center">
+      <input
+        class="comment-input"
+        placeholder="写评论..."
+        value="{{commentContent}}"
+        bindinput="onCommentInput"
+        bindconfirm="onSubmitComment"
+      />
+      <view class="send-btn {{commentContent ? '' : 'send-btn-disabled'}}" bindtap="onSubmitComment">发送</view>
+    </view>
+  </block>
+</view>

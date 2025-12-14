@@ -1,0 +1,80 @@
+<!--pages/login/login.wxml-->
+<view class="page">
+  <!-- 背景装饰 -->
+  <view class="bg-decoration">
+    <view class="circle circle-1"></view>
+    <view class="circle circle-2"></view>
+    <view class="circle circle-3"></view>
+  </view>
+
+  <!-- 主内容区 -->
+  <view class="content">
+    <!-- Logo 区域 -->
+    <view class="logo-section">
+      <view class="logo-wrapper">
+        <text class="logo-icon">🏥</text>
+      </view>
+      <text class="app-name">灵壹健康</text>
+      <text class="app-slogan">您的专属健康管家</text>
+    </view>
+
+    <!-- 头像昵称填写区域 -->
+    <view class="profile-section">
+      <!-- 头像选择 -->
+      <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <image class="avatar-image" src="{{avatarUrl}}" mode="aspectFill" />
+        <view class="avatar-edit-icon">
+          <text class="edit-icon-text">📷</text>
+        </view>
+      </button>
+      <text class="avatar-tip">点击选择头像</text>
+
+      <!-- 昵称输入 -->
+      <view class="nickname-wrapper">
+        <input
+          type="nickname"
+          class="nickname-input"
+          placeholder="请输入昵称"
+          value="{{nickname}}"
+          bindinput="onInputNickname"
+          bindblur="onNicknameBlur"
+        />
+      </view>
+    </view>
+
+    <!-- 登录区域 -->
+    <view class="login-section">
+      <!-- 微信登录按钮 -->
+      <view
+        class="wechat-login-btn {{isLoading ? 'disabled' : ''}}"
+        bindtap="onWechatLogin"
+      >
+        <view class="btn-content">
+          <image
+            class="wechat-icon"
+            src="https://ide.code.fun/api/image?token=6925cda3043f1900118eae33&name=7a90a780bdef46178393a3b77fe3bc89.png"
+            wx:if="{{!isLoading}}"
+          />
+          <view class="loading-spinner" wx:if="{{isLoading}}"></view>
+          <text class="login-btn-text">{{isLoading ? '登录中...' : '微信一键登录'}}</text>
+        </view>
+      </view>
+
+    </view>
+
+    <!-- 底部协议 -->
+    <view class="agreement-section" bindtap="onToggleAgreement">
+      <view class="checkbox-wrapper">
+        <view class="checkbox {{isAgreed ? 'checked' : ''}}">
+          <text class="checkbox-icon" wx:if="{{isAgreed}}">✓</text>
+        </view>
+      </view>
+      <view class="agreement-text-wrapper">
+        <text class="agreement-text">登录即表示同意</text>
+        <text class="agreement-link" catchtap="onViewUserAgreement">《用户协议》</text>
+        <text class="agreement-text">和</text>
+        <text class="agreement-link" catchtap="onViewPrivacyPolicy">《隐私政策》</text>
+      </view>
+    </view>
+  </view>
+</view>

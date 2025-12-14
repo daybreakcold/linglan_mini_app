@@ -1,0 +1,184 @@
+/* pages/register/register.wxss */
+
+.page {
+  padding-bottom: 432rpx;
+  background-color: #ffffff;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+.image {
+  width: 100vw;
+  height: 11.7333vw;
+}
+
+.group {
+  padding: 0 40rpx;
+}
+
+.text {
+  color: #217aff;
+  font-size: 80rpx;
+  font-family: SourceHanSansCN;
+  font-weight: 700;
+  line-height: 76.64rpx;
+}
+
+.group_2 {
+  line-height: 29.66rpx;
+}
+
+.font {
+  font-size: 32rpx;
+  font-family: SourceHanSansCN;
+  line-height: 29.66rpx;
+}
+
+.text_2 {
+  color: #c4c4c4;
+}
+
+.text_3 {
+  color: #217aff;
+  line-height: 29.4rpx;
+}
+
+.group_3 {
+  margin-top: 184rpx;
+  padding: 36rpx 0;
+}
+
+.font_2 {
+  font-size: 24rpx;
+  font-family: SourceHanSansCN;
+  line-height: 22.32rpx;
+  color: #217aff;
+}
+
+.text_4 {
+  margin-right: 60rpx;
+}
+
+.image-wrapper {
+  padding: 36rpx 0 28rpx;
+  background-color: #c4c4c436;
+  border-radius: 212rpx;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 36rpx;
+  padding-right: 36rpx;
+}
+
+.pos {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.image_2 {
+  width: 32rpx;
+  height: 32rpx;
+  flex-shrink: 0;
+}
+
+.input-field {
+  flex: 1;
+  height: 44rpx;
+  background: transparent;
+  font-size: 24rpx;
+  color: #333333;
+}
+
+.placeholder-text {
+  color: #c4c4c4;
+  font-size: 24rpx;
+}
+
+.group_4 {
+  margin-top: 64rpx;
+}
+
+.font_3 {
+  font-size: 36rpx;
+  font-family: SourceHanSansCN;
+  line-height: 33.4rpx;
+}
+
+.text_5 {
+  margin-left: 16rpx;
+  color: #333333;
+}
+
+.section {
+  margin-top: 28rpx;
+  padding: 32rpx 36rpx;
+  background-color: #c4c4c436;
+  border-radius: 212rpx;
+}
+
+.image_3 {
+  width: 22rpx;
+  height: 30rpx;
+}
+
+.font_4 {
+  font-size: 24rpx;
+  font-family: SourceHanSansCN;
+  line-height: 22.32rpx;
+  color: #c4c4c4;
+}
+
+.text_6 {
+  line-height: 22.3rpx;
+}
+
+.group_5 {
+  padding: 36rpx 18rpx 0;
+}
+
+.image_4 {
+  border-radius: 4rpx;
+  width: 28rpx;
+  height: 28rpx;
+}
+
+.group_6 {
+  line-height: 22.46rpx;
+  height: 22.46rpx;
+}
+
+.text_7 {
+  line-height: 22.46rpx;
+}
+
+.text_8 {
+  line-height: 22.4rpx;
+}
+
+.text-wrapper {
+  margin-top: 84rpx;
+  padding: 32rpx 0;
+  background-color: #2079ff;
+  border-radius: 268rpx;
+  filter: drop-shadow(0rpx 26rpx 21rpx #217aff85);
+}
+
+.text_9 {
+  color: #ffffff;
+  line-height: 33.84rpx;
+}
+
+.group_7 {
+  margin-top: 88rpx;
+}
+
+.section_2 {
+  background-color: #a6a6a636;
+  width: 96rpx;
+  height: 2rpx;
+}
+

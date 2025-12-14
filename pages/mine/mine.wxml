@@ -1,0 +1,277 @@
+<view class="flex-col page">
+  <view class="flex-col section">
+    <!-- <image
+      class="image"
+      src="https://res.bundigit.cn/linlanmini/static/mine/.png"
+      mode="aspectFill"
+    /> -->
+    <view class="image"></view>
+    <view class="mt-10 flex-col group">
+      <view class="flex-row justify-end">
+        <image
+          class="image_2"
+          src="https://res.bundigit.cn/linlanmini/static/mine/.png"
+          mode="aspectFill"
+        />
+        <view class="ml-20 flex-row">
+          <view class="flex-col justify-start items-center self-start text-wrapper" wx:if="{{messageBadge}}">
+            <text class="text">{{messageBadge}}</text>
+          </view>
+          <image
+            class="self-center image_3"
+            src="https://res.bundigit.cn/linlanmini/static/mine/.png"
+            mode="aspectFill"
+          />
+        </view>
+      </view>
+      <view class="mt-10 flex-row items-center">
+        <image
+          class="image_4"
+          src="{{displayAvatar}}"
+          mode="aspectFill"
+        />
+        <view class="flex-row group_2 ml-13">
+          <view class="flex-col items-start">
+            <text class="text_2">{{displayNickname}}</text>
+            <text class="mt-8 font text_4">{{displayPhone}}</text>
+          </view>
+          <view class="flex-col group_3" bindtap="onMembershipTap">
+            <view class="flex-col justify-start items-center self-end text-wrapper_2">
+              <text class="text_3">{{membershipText}}</text>
+            </view>
+            <image
+              class="self-start image_5 mt-11"
+              src="https://res.bundigit.cn/linlanmini/static/mine/.png"
+              mode="aspectFill"
+            />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="flex-col relative group_4">
+    <view class="flex-col justify-start relative section_2">
+      <view class="flex-row equal-division">
+        <view class="flex-col items-center group_5 equal-division-item" bindtap="onHealthProfileTap">
+          <image
+            class="image_6"
+            src="https://res.bundigit.cn/linlanmini/static/mine/file.png"
+            mode="aspectFill"
+          />
+          <text class="mt-14 font_2 text_5">健康档案</text>
+        </view>
+        <view class="flex-col items-center group_5 equal-division-item" bindtap="onMembershipTap">
+          <image
+            class="image_6"
+            src="https://res.bundigit.cn/linlanmini/static/mine/card.png"
+            mode="aspectFill"
+          />
+          <text class="font_2 text_5 mt-11">会员卡</text>
+        </view>
+        <view class="flex-col items-center group_5 equal-division-item" bindtap="onFeatureNotReady">
+          <image
+            class="image_6"
+            src="https://res.bundigit.cn/linlanmini/static/mine/coupon.png"
+            mode="aspectFill"
+          />
+          <text class="mt-10 font_2 text_5">优惠券</text>
+        </view>
+      </view>
+    </view>
+    <view class="mt-30 flex-col section_3" wx:if="{{!showHealthForm}}">
+      <view class="flex-col items-start group_6">
+        <text class="font_3 text_6">我的服务</text>
+        <view class="shrink-0 section_4"></view>
+      </view>
+      <view class="mt-16 flex-row equal-division_2">
+        <view class="flex-col items-center group_7 equal-division-item_2" bindtap="onFeatureNotReady">
+          <image
+            class="image_6"
+            src="https://res.bundigit.cn/linlanmini/static/mine/cart.png"
+            mode="aspectFill"
+          />
+          <text class="mt-18 font">购课</text>
+        </view>
+        <view class="flex-col items-center group_7 equal-division-item_2" bindtap="onFeatureNotReady">
+          <image
+            class="image_6"
+            src="https://res.bundigit.cn/linlanmini/static/mine/consult.png"
+            mode="aspectFill"
+          />
+          <text class="font mt-17">咨询管理</text>
+        </view>
+        <view class="flex-col items-center group_7 equal-division-item_2" bindtap="onFeatureNotReady">
+          <image
+            class="image_6"
+            src="https://res.bundigit.cn/linlanmini/static/mine/order.png"
+            mode="aspectFill"
+          />
+          <text class="mt-18 font">订单</text>
+        </view>
+        <view class="flex-col items-center group_7 equal-division-item_2" bindtap="onFeatureNotReady">
+          <image
+            class="image_6"
+            src="https://res.bundigit.cn/linlanmini/static/mine/forum.png"
+            mode="aspectFill"
+          />
+          <text class="font mt-17">往期讲坛</text>
+        </view>
+      </view>
+    </view>
+    <view class="mt-30 flex-col section_5" wx:if="{{!showHealthForm}}">
+      <view class="flex-row justify-between items-center group_8" bindtap="onFeatureNotReady">
+        <view class="flex-row items-center">
+          <image
+            class="shrink-0 image_7"
+            src="https://res.bundigit.cn/linlanmini/static/mine/like.png"
+            mode="aspectFill"
+          />
+          <text class="ml-18 font_3">喜欢</text>
+        </view>
+        <image
+          class="image_8"
+          src="https://res.bundigit.cn/linlanmini/static/mine/right.png"
+          mode="aspectFill"
+        />
+      </view>
+      <view class="flex-col">
+        <view class="flex-row justify-between items-center group_9" bindtap="onFeatureNotReady">
+          <view class="flex-row items-center">
+            <image
+              class="shrink-0 image_9"
+              src="https://res.bundigit.cn/linlanmini/static/mine/course.png"
+              mode="aspectFill"
+            />
+            <text class="font_3 text_7 ml-19">课程记录</text>
+          </view>
+          <image
+            class="image_8"
+            src="https://res.bundigit.cn/linlanmini/static/mine/right.png"
+            mode="aspectFill"
+          />
+        </view>
+        <view class="flex-col group_10">
+          <view class="flex-row justify-between items-center group_11" bindtap="onFeatureNotReady">
+            <view class="flex-row items-center">
+              <image
+                class="shrink-0 image_10"
+                src="https://res.bundigit.cn/linlanmini/static/mine/info.png"
+                mode="aspectFill"
+              />
+              <text class="font_3 text_8 ml-19">信息</text>
+            </view>
+            <image
+              class="image_8"
+              src="https://res.bundigit.cn/linlanmini/static/mine/right.png"
+              mode="aspectFill"
+            />
+          </view>
+          <view class="flex-row justify-between items-center group_11" bindtap="onFeatureNotReady">
+            <view class="flex-row items-center">
+              <image
+                class="shrink-0 image_11"
+                src="https://res.bundigit.cn/linlanmini/static/mine/aboutus.png"
+                mode="aspectFill"
+              />
+              <text class="ml-18 font_3">关于我们</text>
+            </view>
+            <image
+              class="image_8"
+              src="https://res.bundigit.cn/linlanmini/static/mine/right.png"
+              mode="aspectFill"
+            />
+          </view>
+          <view class="flex-row justify-between items-center group_12" bindtap="onFeatureNotReady">
+            <view class="flex-row items-center">
+              <image
+                class="shrink-0 image_6"
+                src="https://res.bundigit.cn/linlanmini/static/mine/service.png"
+                mode="aspectFill"
+              />
+              <text class="font_3 text_9 ml-17">服务</text>
+            </view>
+            <image
+              class="image_8"
+              src="https://res.bundigit.cn/linlanmini/static/mine/right.png"
+              mode="aspectFill"
+            />
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 健康档案表单 -->
+    <view class="flex-col health-form" wx:if="{{showHealthForm}}">
+      <text class="form-title">健康档案</text>
+      <view class="form-item">
+        <text class="label">手机号</text>
+        <input class="input" type="number" placeholder="请输入手机号" value="{{healthForm.phone}}" data-field="phone" bindinput="onHealthInput" />
+      </view>
+      <view class="form-item">
+        <text class="label">姓名</text>
+        <input class="input" placeholder="请输入姓名" value="{{healthForm.fullName}}" data-field="fullName" bindinput="onHealthInput" />
+      </view>
+      <view class="form-item">
+        <text class="label">年龄</text>
+        <input class="input" type="number" placeholder="请输入年龄" value="{{healthForm.age}}" data-field="age" bindinput="onHealthInput" />
+      </view>
+      <view class="form-item">
+        <text class="label">性别</text>
+        <radio-group class="gender-group" bindchange="onGenderChange" value="{{healthForm.gender}}">
+          <label class="gender-item">
+            <radio value="1" checked="{{healthForm.gender === 1}}" />男
+          </label>
+          <label class="gender-item">
+            <radio value="0" checked="{{healthForm.gender === 0}}" />女
+          </label>
+        </radio-group>
+      </view>
+      <view class="form-item">
+        <text class="label">身高(cm)</text>
+        <input class="input" type="digit" placeholder="请输入身高" value="{{healthForm.heightCm}}" data-field="heightCm" bindinput="onHealthInput" />
+      </view>
+      <view class="form-item">
+        <text class="label">体重(kg)</text>
+        <input class="input" type="digit" placeholder="请输入体重" value="{{healthForm.weightKg}}" data-field="weightKg" bindinput="onHealthInput" />
+      </view>
+      <view class="form-item">
+        <text class="label">其他</text>
+        <textarea
+          class="textarea"
+          placeholder="请填写过敏史、症状或其他健康情况"
+          value="{{healthForm.extra}}"
+          data-field="extra"
+          bindinput="onHealthInput"
+        ></textarea>
+      </view>
+      <view class="form-actions">
+        <button class="btn cancel" bindtap="onCancelHealthProfile">取消</button>
+        <button class="btn primary" loading="{{healthSaving}}" bindtap="onSaveHealthProfile">保存</button>
+      </view>
+    </view>
+  </view>
+  <view class="flex-col justify-start section_6">
+    <view class="flex-row justify-between equal-division_3">
+      <image
+        class="equal-division-item_3"
+        src="https://res.bundigit.cn/linlanmini/static/mine/.png"
+        mode="aspectFill"
+      />
+      <image
+        class="equal-division-item_3"
+        src="https://res.bundigit.cn/linlanmini/static/mine/.png"
+        mode="aspectFill"
+      />
+      <image
+        class="equal-division-item_3"
+        src="https://res.bundigit.cn/linlanmini/static/mine/.png"
+        mode="aspectFill"
+      />
+      <image
+        class="equal-division-item_3"
+        src="https://res.bundigit.cn/linlanmini/static/mine/.png"
+        mode="aspectFill"
+      />
+    </view>
+  </view>
+</view>

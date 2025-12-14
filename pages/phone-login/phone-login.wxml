@@ -1,0 +1,46 @@
+<!--pages/phone-login/phone-login.wxml-->
+<view class="flex-col page">
+  <!-- 顶部状态栏图片 -->
+  <image
+    class="image"
+    src="https://ide.code.fun/api/image?token=6925cda3043f1900118eae33&name=e3b4d42d8919f509a80d34921a1601eb.png"
+  />
+
+  <view class="mt-56 flex-col group">
+    <!-- 标题区域 -->
+    <view class="flex-col items-start">
+      <text class="text">灵壹健康</text>
+      <view class="group_2 mt-15">
+        <text class="font text_2">授权手机号完成登录</text>
+      </view>
+    </view>
+
+    <!-- 微信手机号一键登录按钮 -->
+    <button 
+      class="wechat-phone-btn {{isLoading ? 'disabled' : ''}}"
+      open-type="getPhoneNumber"
+      bindgetphonenumber="handleGetPhoneNumber"
+      disabled="{{isLoading}}"
+    >
+      <view class="flex-row justify-center items-center">
+        <image
+          class="wechat-icon"
+          src="https://ide.code.fun/api/image?token=6925cda3043f1900118eae33&name=7a90a780bdef46178393a3b77fe3bc89.png"
+          wx:if="{{!isLoading}}"
+        />
+        <text class="btn-text" wx:if="{{!isLoading}}">微信手机号一键登录</text>
+        <text class="btn-text" wx:else>登录中...</text>
+      </view>
+    </button>
+
+    <!-- 提示文案 -->
+    <view class="tips-section">
+      <text class="tips-text">点击按钮将获取您的微信绑定手机号</text>
+    </view>
+
+    <!-- 返回登录 -->
+    <view class="back-link" bindtap="goBack">
+      <text class="back-text">返回</text>
+    </view>
+  </view>
+</view>
