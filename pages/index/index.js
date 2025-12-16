@@ -59,6 +59,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 品牌名称
+    brandName: '灵壹健康',
     // 高亮卡片数据
     highlights: [],
     // 课程标签数据（热门标签）
@@ -107,10 +109,11 @@ Page({
     this.setData({ isLoading: true })
 
     try {
-      // 并行请求首页数据和获客助手配置
-      const [homeData, leadAssistantRes] = await Promise.all([
+      // 并行请求首页数据、获客助手配置和品牌名称
+      const [homeData, leadAssistantRes, brandNameRes] = await Promise.all([
         homeService.getHomeData(),
-        homeService.getLeadAssistant().catch(err => ({ success: false, data: null }))
+        homeService.getLeadAssistant().catch(err => ({ success: false, data: null })),
+        homeService.getBrandName().catch(err => ({ success: false, data: null }))
       ])
 
       const { highlights, courseTags, dialogScenarios } = homeData
@@ -120,6 +123,11 @@ Page({
         enabled: leadAssistantRes.success && leadAssistantRes.data?.enabled && leadAssistantRes.data?.url,
         url: leadAssistantRes.data?.url || ''
       }
+
+      // 处理品牌名称数据
+      const brandName = brandNameRes.success && brandNameRes.data?.brandName 
+        ? brandNameRes.data.brandName 
+        : '灵壹健康'
 
       // 处理课程标签数据：转换标签名称为中文
       const processedCourseTags = courseTags.map(tag => ({
@@ -144,6 +152,7 @@ Page({
       const processedScenarios = processDialogScenarios(dialogScenarios)
 
       this.setData({
+        brandName,
         highlights,
         courseTags: processedCourseTags,
         allCourses,

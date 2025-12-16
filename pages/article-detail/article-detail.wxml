@@ -53,7 +53,7 @@
           <view class="flex-col self-stretch group_4 mt-48">
             <view class="flex-col section">
               <view class="section-header">
-                <text class="section-title">评论 ({{comments.length}})</text>
+                <text class="section-title">精选评论 ({{comments.length}})</text>
               </view>
               <!-- 评论列表 -->
               <view class="comment-list" wx:if="{{comments.length > 0}}">
@@ -116,7 +116,7 @@
     </view>
 
     <!-- 底部评论输入栏 -->
-    <view class="section_3 flex-row items-center">
+    <!-- <view class="section_3 flex-row items-center">
       <input
         class="comment-input"
         placeholder="写评论..."
@@ -125,6 +125,6 @@
         bindconfirm="onSubmitComment"
       />
       <view class="send-btn {{commentContent ? '' : 'send-btn-disabled'}}" bindtap="onSubmitComment">发送</view>
-    </view>
+    </view> -->
   </block>
 </view>

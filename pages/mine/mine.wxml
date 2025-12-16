@@ -66,7 +66,7 @@
             src="https://res.bundigit.cn/linlanmini/static/mine/card.png"
             mode="aspectFill"
           />
-          <text class="font_2 text_5 mt-11">会员卡</text>
+          <text class="font_2 text_5 mt-11">会员权益</text>
         </view>
         <view class="flex-col items-center group_5 equal-division-item" bindtap="onFeatureNotReady">
           <image
@@ -90,7 +90,7 @@
             src="https://res.bundigit.cn/linlanmini/static/mine/cart.png"
             mode="aspectFill"
           />
-          <text class="mt-18 font">购课</text>
+          <text class="mt-18 font">课程</text>
         </view>
         <view class="flex-col items-center group_7 equal-division-item_2" bindtap="onFeatureNotReady">
           <image
@@ -98,7 +98,7 @@
             src="https://res.bundigit.cn/linlanmini/static/mine/consult.png"
             mode="aspectFill"
           />
-          <text class="font mt-17">咨询管理</text>
+          <text class="font mt-17">咨询</text>
         </view>
         <view class="flex-col items-center group_7 equal-division-item_2" bindtap="onFeatureNotReady">
           <image
@@ -142,7 +142,7 @@
               src="https://res.bundigit.cn/linlanmini/static/mine/course.png"
               mode="aspectFill"
             />
-            <text class="font_3 text_7 ml-19">课程记录</text>
+            <text class="font_3 text_7 ml-19">课程</text>
           </view>
           <image
             class="image_8"

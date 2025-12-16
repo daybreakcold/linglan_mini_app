@@ -14,29 +14,48 @@
       <!-- 一级标签 -->
       <view class="flex-col self-stretch group_4">
         <view class="flex-row justify-between items-center self-stretch group_5">
-          <block wx:if="{{courseTags.length > 0}}">
-            <text
-              class="{{selectedTagIndex === index ? 'text_3' : 'font'}}"
-              wx:for="{{courseTags}}"
-              wx:key="primaryTag"
-              data-index="{{index}}"
-              bindtap="onTagClick"
-            >{{item.primaryName}}</text>
-          </block>
-          <block wx:else>
-            <text class="text_3">视频</text>
-            <text class="font text_4">#标签</text>
-            <text class="font text_5">生活</text>
-            <text class="font text_6">母婴</text>
-            <text class="font text_7">睡眠</text>
-          </block>
+          <view class="flex-row flex-1 tab-list">
+            <block wx:if="{{courseTags.length > 0}}">
+              <view
+                class="tab-item"
+                wx:for="{{courseTags}}"
+                wx:key="primaryTag"
+                data-index="{{index}}"
+                bindtap="onTagClick"
+              >
+                <text class="{{selectedTagIndex === index ? 'text_3' : 'font'}}">{{item.primaryName}}</text>
+                <view class="tab-indicator {{selectedTagIndex === index ? 'active' : ''}}"></view>
+              </view>
+            </block>
+            <block wx:else>
+              <view class="tab-item">
+                <text class="text_3">视频</text>
+                <view class="tab-indicator active"></view>
+              </view>
+              <view class="tab-item">
+                <text class="font">#标签</text>
+                <view class="tab-indicator"></view>
+              </view>
+              <view class="tab-item">
+                <text class="font">生活</text>
+                <view class="tab-indicator"></view>
+              </view>
+              <view class="tab-item">
+                <text class="font">母婴</text>
+                <view class="tab-indicator"></view>
+              </view>
+              <view class="tab-item">
+                <text class="font">睡眠</text>
+                <view class="tab-indicator"></view>
+              </view>
+            </block>
+          </view>
           <image
             class="image_3 {{secondaryTagsExpanded ? '' : 'arrow-collapsed'}}"
             src="/images/icons/arrow-down.svg"
             bindtap="toggleSecondaryTags"
           />
         </view>
-        <view class="self-start section_2"></view>
       </view>
 
       <!-- 二级标签 -->

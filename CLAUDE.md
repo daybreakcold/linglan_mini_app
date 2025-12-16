@@ -284,7 +284,6 @@ Call in both `onReady()` and `onShow()` with a small delay (`setTimeout(..., 100
 ## Known Issues & TODOs
 
 ### High Priority (Affects functionality)
-- **[config/index.js](config/index.js)**: AppID fields are empty strings, need real AppID configuration
 - **[pages/membership/membership.js](pages/membership/membership.js)**: `loadCourses()` uses hardcoded data, `onSubscribe()` payment not implemented
 - **[pages/register/register.js](pages/register/register.js)**: Registration is mock implementation, doesn't call real API
 

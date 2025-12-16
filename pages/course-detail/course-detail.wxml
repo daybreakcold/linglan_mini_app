@@ -29,7 +29,8 @@
           src="{{course.coverUrl || '/images/course-default.png'}}"
           mode="aspectFill"
         ></image>
-        <view class="play-btn" bindtap="onPlayVideo">
+        <!-- 只有第一个可用章节是视频类型时才显示播放按钮 -->
+        <view class="play-btn" bindtap="onPlayVideo" wx:if="{{course.firstSectionIsVideo}}">
           <view class="play-icon">
             <text class="play-triangle">▶</text>
           </view>

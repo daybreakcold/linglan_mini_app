@@ -41,6 +41,14 @@ const getLeadAssistant = () => {
 }
 
 /**
+ * 获取首页品牌名称
+ * @returns {Promise<{success: boolean, data: {brandName: string}}>}
+ */
+const getBrandName = () => {
+  return get('/api/home/brand-name')
+}
+
+/**
  * 获取首页所有数据（并行请求）
  * @returns {Promise<{highlights: Array, courseTags: Array, dialogScenarios: Array}>}
  */
@@ -72,6 +80,7 @@ module.exports = {
   getCourseTags,
   getDialogScenarios,
   getLeadAssistant,
+  getBrandName,
   getHomeData
 }
 

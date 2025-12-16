@@ -179,6 +179,10 @@ Page({
     course.articleCount = articleCount
     course.sectionCount = (course.sections || []).length
 
+    // 判断第一个可用章节是否为视频类型（用于控制封面播放按钮显示）
+    const firstAvailableSection = (course.sections || []).find(s => s.available)
+    course.firstSectionIsVideo = firstAvailableSection ? firstAvailableSection.isVideo : false
+
     return course
   },
 

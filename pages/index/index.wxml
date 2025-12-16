@@ -18,7 +18,7 @@
     <!-- 顶部标题栏 -->
     <view class="flex-col">
       <view class="flex-row justify-between group_2">
-        <text class="text">灵壹健康</text>
+        <text class="text">{{brandName}}</text>
         <!-- <view class="flex-row group_3">
           <image
             class="image_2"
@@ -38,14 +38,14 @@
         <!-- 健康咨询卡片 -->
         <view class="flex-col equal-division-item section" bindtap="onHealthConsult">
           <view class="flex-col items-start">
-            <text class="font text_2">健康咨询</text>
-            <text class="mt-12 font_2 text_4">100+专家团队</text>
-            <text class="mt-12 font_2 text_6">1000+医生</text>
+            <text class="font text_2">健康百科</text>
+            <text class="mt-12 font_2 text_4">1000+健康百科</text>
+            <text class="mt-12 font_2 text_6">100+名方经典</text>
           </view>
           <view class="flex-col mt-25">
             <view class="flex-row">
               <view class="flex-col justify-start items-center text-wrapper">
-                <text class="font_3 text_7">慢病</text>
+                <text class="font_3 text_7">运动</text>
               </view>
               <view class="flex-col justify-start items-center text-wrapper ml-9">
                 <text class="font_3 text_8">理疗</text>
@@ -53,7 +53,7 @@
             </view>
             <view class="flex-row mt-9">
               <view class="flex-col justify-start items-center text-wrapper">
-                <text class="font_3 text_11">中药</text>
+                <text class="font_3 text_11">食补</text>
               </view>
               <view class="flex-col justify-start items-center text-wrapper ml-9">
                 <text class="font_3 text_12">保养</text>
@@ -79,7 +79,7 @@
             </view>
             <view class="flex-row mt-9">
               <view class="flex-col justify-start items-center text-wrapper_2">
-                <text class="font_3 text_13">易经</text>
+                <text class="font_3 text_13">易筋</text>
               </view>
               <view class="ml-12 flex-col justify-start items-center text-wrapper_2">
                 <text class="font_3 text_14">活络</text>

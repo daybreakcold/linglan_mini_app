@@ -102,12 +102,32 @@
   transform: rotate(180deg);
 }
 
-.section_2 {
-  margin-left: 14rpx;
-  background-color: #2079ff;
+/* 一级标签列表 */
+.tab-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 40rpx;
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.tab-indicator {
+  margin-top: 12rpx;
+  background-color: transparent;
   border-radius: 202rpx;
   width: 36rpx;
   height: 6rpx;
+  transition: background-color 0.3s ease;
+}
+
+.tab-indicator.active {
+  background-color: #2079ff;
 }
 
 /* 二级标签 */
