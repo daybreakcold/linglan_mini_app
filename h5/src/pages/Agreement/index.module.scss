@@ -1,0 +1,42 @@
+.page {
+  min-height: 100vh;
+  background-color: var(--bg-white);
+}
+
+.header {
+  padding: 20px 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.content {
+  padding: 16px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 20px 0 16px;
+    text-align: center;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 16px 0 10px;
+  }
+
+  p {
+    margin: 8px 0;
+    font-size: 14px;
+  }
+}

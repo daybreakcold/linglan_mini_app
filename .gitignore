@@ -1,18 +1,18 @@
-# 系统文件
+# macOS
 .DS_Store
-Thumbs.db
 
-# 微信开发者工具
+# WeChat Mini Program
 project.private.config.json
-miniprogram_npm/
 
-# Node
-node_modules/
+# H5 dependencies and build
+h5/node_modules/
+h5/dist/
+h5/.env.local
+h5/.env.*.local
 
-# 日志
-*.log
-
-# IDE
-.idea/
+# Editor
 .vscode/
-
+.idea/
+*.swp
+*.swo
+*~
