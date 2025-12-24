@@ -4,49 +4,161 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-铃兰小程序 (Linglan Mini App) - 灵壹健康 (Lingyi Health) is a WeChat Mini Program for a traditional Chinese medicine consultation platform. The app provides health courses, AI-powered inquiry/consultation, and user management features.
+铃兰 (Linglan) - 灵壹健康 (Lingyi Health) is a **dual-platform** traditional Chinese medicine consultation platform with:
+
+1. **WeChat Mini Program** (root directory) - Native WeChat Mini Program
+2. **H5 Web Application** (`h5/` directory) - React + Vite web app
+
+Both platforms share the same backend API (`https://tmc.u9d.net/tmc`) and provide health courses, AI-powered consultation, and user management features.
 
 ## Development Environment
 
-This is a native WeChat Mini Program project. Development requires:
+### WeChat Mini Program (Root Directory)
+
+Native WeChat Mini Program development requires:
 - **WeChat Developer Tools** (微信开发者工具) - download from https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html
 - Import the project root directory in WeChat Developer Tools
 - Configure AppID in [project.config.json](project.config.json)
 
 There is no npm, no build commands, and no test framework. All development and preview happens through WeChat Developer Tools.
 
+### H5 Web Application (`h5/` Directory)
+
+React + Vite web application. Common commands:
+
+```bash
+cd h5/
+
+# Install dependencies (first time only)
+npm install
+
+# Start development server (http://localhost:3000)
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+**Tech Stack:**
+- React 18 with React Router DOM
+- Vite 5 (build tool)
+- Zustand (state management)
+- Axios (HTTP client)
+- React Markdown (AI chat message rendering)
+- SCSS for styling
+- postcss-px-to-viewport (mobile adaptation)
+
+**Environment Variables** (`.env` file):
+- `VITE_API_BASE_URL` - Backend API base URL
+- `VITE_TOKEN_KEY` - Access token storage key (same as mini program)
+- `VITE_REFRESH_TOKEN_KEY` - Refresh token storage key
+- `VITE_USER_INFO_KEY` - User info storage key
+
+**Dev Server Configuration:**
+- Port: 3000 (accessible on network via `host: true`)
+- Proxy: `/api` proxied to `https://tmc.u9d.net/tmc`
+- Path alias: `@` → `./src`
+- Build output: `dist/` directory
+
+**Testing & Linting:**
+- No test framework configured
+- No linting tools (ESLint/Prettier) configured
+
 ## Architecture
 
-### File Structure Pattern
+### Platform Comparison
+
+| Feature | Mini Program | H5 Web App |
+|---------|-------------|-----------|
+| **Framework** | Native WeChat | React 18 + Vite |
+| **Routing** | Page navigation (`wx.navigateTo`) | React Router DOM |
+| **State** | Page data + storage | Zustand + localStorage |
+| **HTTP** | [services/request.js](services/request.js) | [h5/src/services/request.js](h5/src/services/request.js) (Axios) |
+| **Styles** | WXSS | SCSS + CSS Modules |
+| **Module System** | CommonJS | ES Modules |
+
+### Shared Backend API
+
+Both platforms consume the same REST API at `https://tmc.u9d.net/tmc` with identical:
+- Authentication flow (token-based)
+- API endpoints structure
+- Response format: `{ success, message, data, timestamp }`
+- Token storage keys: `x_token`, `refresh_token`, `user_info`
+
+### Mini Program File Structure Pattern
 Each page/component follows the standard WeChat Mini Program four-file structure:
 - `.js` - Logic and data
 - `.json` - Configuration
 - `.wxml` - Template (HTML-like)
 - `.wxss` - Styles (CSS-like)
 
-### Key Directories
+### Mini Program Key Directories
 - `pages/` - App pages (15 total, see [app.json](app.json) for full list)
 - `services/` - API service modules (auth, home, course, content, ai, my, request)
 - `utils/` - Utility functions including `markdown.js` for AI chat message rendering
-- `config/` - Environment configuration
+- `config/` - Environment configuration (switch via `ENV` variable in [config/index.js](config/index.js))
 - `custom-tab-bar/` - Custom bottom navigation component with CDN images
+- `components/` - Reserved for shared components (currently unused, only `.gitkeep`)
 - `docs/` - Backend API documentation (8 API docs)
 
+### H5 Application Structure
+
+```
+h5/
+├── src/
+│   ├── pages/           # Route pages (ArticleList, ArticleDetail, CourseList, CourseDetail, InquiryChat, Agreement)
+│   ├── components/      # Reusable components (ArticleCard, CourseCard, ChatMessage, MarkdownRenderer, TagFilter, Loading, Empty, ErrorBoundary)
+│   ├── services/        # API services (ai.js, content.js, course.js, request.js)
+│   ├── router/          # React Router configuration
+│   ├── store/           # Zustand state management
+│   ├── hooks/           # Custom React hooks
+│   ├── utils/           # Utility functions
+│   └── styles/          # Global styles and SCSS
+├── public/              # Static assets
+├── .env                 # Environment variables
+└── vite.config.js       # Vite configuration
+```
+
+**H5 Routes:**
+- `/` or `/articles` - Article list page
+- `/articles/:id` - Article detail page
+- `/courses` - Course list page
+- `/courses/:id` - Course detail page
+- `/chat` - AI consultation chat (default)
+- `/chat/:templateId` - AI consultation with specific template
+- `/agreement` or `/agreement/:type` - User agreement/privacy policy
+
 ### Service Layer Architecture
-API calls are structured in two layers:
-1. **[services/request.js](services/request.js)** - Base HTTP client with:
+
+Both platforms use a two-layer service architecture:
+
+**Mini Program Services** (CommonJS):
+1. **[services/request.js](services/request.js)** - Base HTTP client (wx.request wrapper) with:
    - Automatic token injection via `x-token` header
    - Token refresh on 401 responses
    - Redirect to login on auth failure
    - Unified error handling
 
-2. **Domain services** - Business-specific API calls that use the base request module:
+2. **Domain services** - Business-specific API calls:
    - [services/auth.js](services/auth.js) - Authentication (login, token refresh, WeChat code2session). Login also fetches `/api/me` for full user profile including nickname.
    - [services/home.js](services/home.js) - Home page data, including `getLeadAssistant()` for WeChat Work contact assistant
    - [services/course.js](services/course.js) - Courses, tags, enrollment, progress tracking
    - [services/content.js](services/content.js) - Articles, comments, likes, favorites
    - [services/ai.js](services/ai.js) - AI consultation (dialog init, history, send message)
    - [services/my.js](services/my.js) - User profile and health records (health profile fields: `phone`, `fullName`, `age`, `gender` (0=女,1=男), `heightCm`, `weightKg`, `extra`)
+
+**H5 Services** (ES Modules):
+1. **[h5/src/services/request.js](h5/src/services/request.js)** - Axios-based HTTP client with interceptors for token injection and refresh
+2. **Domain services** - [h5/src/services/ai.js](h5/src/services/ai.js), [h5/src/services/content.js](h5/src/services/content.js), [h5/src/services/course.js](h5/src/services/course.js) (subset of mini program services)
+
+---
+
+## WeChat Mini Program Specifics
+
+The following sections apply to the WeChat Mini Program only. For H5-specific features, see the H5 Application Structure section above.
 
 ### Authentication Flow
 The app uses a two-step WeChat + phone verification flow:
@@ -95,9 +207,10 @@ onShow() {
 
 ### API Configuration
 Environment configuration in [config/index.js](config/index.js):
-- `ENV` variable controls dev/prod environment (change this to switch environments)
-- `baseUrl` points to backend API server
-- Token storage keys and OTP constants
+- `ENV` variable controls dev/prod environment (change this to switch environments - currently both point to same server)
+- `baseUrl` points to backend API server (`https://tmc.u9d.net/tmc`)
+- Token storage keys: `TOKEN_KEY`, `REFRESH_TOKEN_KEY`, `USER_INFO_KEY`
+- OTP constants: `OTP_PURPOSE` (LOGIN/BIND_PHONE), `OTP_COUNTDOWN` (60s), `OTP_LENGTH` (6 digits)
 
 ### Custom Tab Bar
 Uses WeChat's custom tabBar feature (`"custom": true` in [app.json](app.json)). The component is in [custom-tab-bar/](custom-tab-bar/) and uses CDN-hosted icon images.
@@ -141,14 +254,23 @@ All APIs return unified `ApiResponse<T>` format: `{ success, message, data, time
 ## Code Conventions
 
 ### HTTP Requests
-**IMPORTANT**: Always use [services/request.js](services/request.js) for API calls, NOT [utils/util.js](utils/util.js). The request service provides:
-- Automatic token injection and refresh
-- Unified error handling
-- Automatic login redirect on auth failure
 
-Use domain-specific services ([services/auth.js](services/auth.js), [services/home.js](services/home.js), etc.) which wrap the base request module.
+**Mini Program:**
+- **IMPORTANT**: Always use [services/request.js](services/request.js) for API calls, NOT [utils/util.js](utils/util.js)
+- Use domain-specific services ([services/auth.js](services/auth.js), [services/home.js](services/home.js), etc.) which wrap the base request module
+- The request service provides automatic token injection, refresh, and login redirect
 
-### CSS Utilities
+**H5:**
+- Use [h5/src/services/request.js](h5/src/services/request.js) (Axios with interceptors)
+- Use domain-specific services ([h5/src/services/ai.js](h5/src/services/ai.js), etc.)
+- Axios interceptors handle token injection and refresh automatically
+
+### Module Systems
+
+- **Mini Program**: CommonJS (`module.exports` / `require()`)
+- **H5**: ES Modules (`export` / `import`)
+
+### CSS Utilities (Mini Program)
 Global styles in [app.wxss](app.wxss) provide extensive utility classes:
 - **Flex layout**: `.flex-row`, `.flex-col`, `.justify-center`, `.items-center`, `.flex-1`
 - **Spacing**: `.mt-{n}`, `.ml-{n}` (where n = 2, 4, 6, 8, ... 100 in even increments)
@@ -163,17 +285,14 @@ Global styles in [app.wxss](app.wxss) provide extensive utility classes:
 Use these utilities instead of writing custom CSS where possible.
 
 ### Data Transformation Patterns
-Common pattern used throughout the app for normalizing backend data:
+Common patterns used across both platforms for normalizing backend data:
 - **Tag name mapping**: Convert English tags to Chinese (e.g., `PHYSIQUE` → `体质调理`)
 - **Role normalization**: Standardize message roles with `.toUpperCase()` to handle case inconsistencies
 - **Null handling**: Always provide fallback values for nullable fields (e.g., `avatar || ''`)
 
-See [pages/index/index.js](pages/index/index.js) for examples.
+See [pages/index/index.js](pages/index/index.js) (Mini Program) or H5 page components for examples.
 
-### Module Exports
-Uses CommonJS (`module.exports` / `require()`) - not ES modules
-
-## Page Features
+## Page Features (Mini Program)
 
 ### Inquiry (问询) Pages
 1. **[pages/inquiry/inquiry.js](pages/inquiry/inquiry.js)** - Inquiry TAB page (tab bar index 1)
@@ -281,7 +400,7 @@ calculateScrollAreaHeight() {
 
 Call in both `onReady()` and `onShow()` with a small delay (`setTimeout(..., 100)`) to ensure fixed elements are rendered.
 
-## Known Issues & TODOs
+## Known Issues & TODOs (Mini Program)
 
 ### High Priority (Affects functionality)
 - **[pages/membership/membership.js](pages/membership/membership.js)**: `loadCourses()` uses hardcoded data, `onSubscribe()` payment not implemented
@@ -297,7 +416,23 @@ Call in both `onReady()` and `onShow()` with a small delay (`setTimeout(..., 100
 - Some pages use `ide.code.fun` placeholder image URLs from design mockups
 - [inquiry.wxml](pages/inquiry/inquiry.wxml) contains ~90 lines of commented legacy code
 
-## Special Features
+## Special Features (Mini Program)
 
 ### Lead Assistant (获客助手)
 Home page's "添加专属微信群" banner is controlled by `/api/home/lead-assistant` API. If `enabled: true` and `url` exists, banner shows and links to WebView page. See [pages/index/index.js](pages/index/index.js) `loadHomeData()` and `onAddWechat()`.
+
+---
+
+## Working with Both Platforms
+
+When implementing features that span both platforms:
+
+1. **Keep services in sync**: API calls should use the same endpoint structure and parameters across both Mini Program ([services/](services/)) and H5 ([h5/src/services/](h5/src/services/))
+
+2. **Shared backend contract**: Both platforms expect the same `ApiResponse<T>` format from the backend
+
+3. **Token handling**: Both use the same storage keys (`x_token`, `refresh_token`, `user_info`) for consistency
+
+4. **Component parity**: When adding features, consider whether they should exist in both platforms. Currently H5 has a subset of features (no home page, no membership, no mine profile pages)
+
+5. **Testing**: When modifying backend API integrations, test changes in both platforms if the service exists in both
