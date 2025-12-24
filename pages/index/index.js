@@ -2,6 +2,7 @@
 const app = getApp()
 const homeService = require('../../services/home')
 const authService = require('../../services/auth')
+const { navigateToH5 } = require('../../utils/h5Navigation')
 
 // 标签名称中英文映射
 const TAG_NAME_MAP = {
@@ -218,9 +219,10 @@ Page({
    */
   onHealthConsult() {
     if (!authService.checkLogin()) return
-    wx.navigateTo({
-      url: '/pages/inquiry-chat/inquiry-chat'
-    })
+    navigateToH5('inquiry-chat', {})
+    // wx.navigateTo({
+    //   url: '/pages/inquiry-chat/inquiry-chat'
+    // })
   },
 
   /**
@@ -246,15 +248,11 @@ Page({
         this.navigateToFirstCourse()
       } else if (index === 1) {
         // 正在学习 -> 跳转课程列表页
-        wx.navigateTo({
-          url: '/pages/course/course'
-        })
+        navigateToH5('course', {})
       } else if (index === 2) {
         // 正在提问 -> 跳转AI问询（需要登录）
         if (!authService.checkLogin()) return
-        wx.navigateTo({
-          url: '/pages/inquiry-chat/inquiry-chat'
-        })
+        navigateToH5('inquiry-chat', {})
       }
       return
     }
@@ -262,15 +260,11 @@ Page({
     // 处理API数据情况
     if (highlight.type === '课程' && highlight.courseSectionId) {
       // 跳转到课程详情（courseSectionId 实际是课程ID）
-      wx.navigateTo({
-        url: `/pages/course-detail/course-detail?courseId=${highlight.courseSectionId}`
-      })
+      navigateToH5('course-detail', { courseId: highlight.courseSectionId })
     } else if (highlight.type === 'AI' || highlight.type === '提问') {
       // 跳转到问询页面（需要登录）
       if (!authService.checkLogin()) return
-      wx.navigateTo({
-        url: '/pages/inquiry-chat/inquiry-chat'
-      })
+      navigateToH5('inquiry-chat', {})
     } else if (highlight.type === '学习' || highlight.type === '文章') {
       // 跳转到课程列表页
       wx.navigateTo({
@@ -291,13 +285,11 @@ Page({
     const { courseTags } = this.data
     if (courseTags.length > 0 && courseTags[0].courses && courseTags[0].courses.length > 0) {
       const course = courseTags[0].courses[0]
-      wx.navigateTo({
-        url: `/pages/course-detail/course-detail?courseId=${course.courseId}&sectionId=${course.firstSectionId || ''}`
-      })
+      navigateToH5('course-detail', { courseId: course.courseId })
     } else {
       // 无课程数据时跳转到课堂页
       wx.switchTab({
-        url: '/pages/course/course'
+        url: '/pages/lesson/lesson'
       })
     }
   },
@@ -340,11 +332,7 @@ Page({
   onCourseTap(e) {
     const { course } = e.currentTarget.dataset
     if (course && course.courseId) {
-      // 有 courseId 即可跳转，sectionId 可选
-      const url = course.firstSectionId
-        ? `/pages/course-detail/course-detail?courseId=${course.courseId}&sectionId=${course.firstSectionId}`
-        : `/pages/course-detail/course-detail?courseId=${course.courseId}`
-      wx.navigateTo({ url })
+      navigateToH5('course-detail', { courseId: course.courseId })
     } else if (course) {
       wx.showToast({
         title: course.title || '课程信息不完整',
@@ -373,14 +361,10 @@ Page({
     const { currentScenario } = this.data
     if (currentScenario && currentScenario.templateId) {
       // 跳转到问询聊天页，带上模板ID
-      wx.navigateTo({
-        url: `/pages/inquiry-chat/inquiry-chat?templateId=${currentScenario.templateId}&title=${encodeURIComponent(currentScenario.title || '')}`
-      })
+      navigateToH5('inquiry-chat', { templateId: currentScenario.templateId }, currentScenario.title || '')
     } else {
       // 无模板ID时直接跳转到默认问询页
-      wx.navigateTo({
-        url: '/pages/inquiry-chat/inquiry-chat'
-      })
+      navigateToH5('inquiry-chat', {})
     }
   },
 
@@ -391,9 +375,7 @@ Page({
     const { courseTags } = this.data
     if (courseTags.length > 0 && courseTags[0].courses && courseTags[0].courses.length > 0) {
       const course = courseTags[0].courses[0]
-      wx.navigateTo({
-        url: `/pages/course-detail/course-detail?courseId=${course.courseId}`
-      })
+      navigateToH5('course-detail', { courseId: course.courseId })
     } else {
       wx.showToast({
         title: '课程详情开发中',

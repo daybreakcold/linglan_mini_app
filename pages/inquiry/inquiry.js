@@ -2,6 +2,7 @@
 const aiService = require('../../services/ai')
 const authService = require('../../services/auth')
 const { parseMarkdown } = require('../../utils/markdown')
+const { navigateToH5 } = require('../../utils/h5Navigation')
 
 // 默认模板ID（问询页面使用的默认场景）
 const DEFAULT_TEMPLATE_ID = 1
@@ -569,9 +570,7 @@ Page({
    * 点击 AI 问询卡片
    */
   onAIInquiryTap() {
-    wx.navigateTo({
-      url: '/pages/inquiry-chat/inquiry-chat'
-    })
+    navigateToH5('inquiry-chat', {})
   },
 
   /**

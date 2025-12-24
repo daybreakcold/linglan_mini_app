@@ -5,6 +5,7 @@
  * 响应字段：id, title, summary, coverUrl, tag, publishAt, viewCount, likeCount
  */
 const contentService = require('../../services/content')
+const { navigateToH5 } = require('../../utils/h5Navigation')
 
 // 标签配置
 const TAGS = [
@@ -243,9 +244,7 @@ Page({
   onArticleTap(e) {
     const { id } = e.currentTarget.dataset
     console.log('点击文章:', id)
-    wx.navigateTo({
-      url: `/pages/article-detail/article-detail?id=${id}`
-    })
+    navigateToH5('article-detail', { id })
   },
 
   /**

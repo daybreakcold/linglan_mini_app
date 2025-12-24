@@ -1,7 +1,16 @@
+// 科普详情页样式 - 基于Figma设计稿
+$primary-green: #119c59;
+$text-black: #2a2a2a;
+$text-gray: #6d6d6d;
+$text-light: #999999;
+$bg-page: #f8f9fa;
+$bg-card: #ffffff;
+$border-card: rgba(202, 196, 208, 0.5);
+
 .page {
   min-height: 100vh;
-  background-color: var(--bg-color);
-  padding-bottom: env(safe-area-inset-bottom);
+  background-color: $bg-page;
+  padding-bottom: 90px; // 为底部评论栏留空间
 }
 
 .error {
@@ -9,57 +18,130 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  color: var(--text-secondary);
+  color: $text-gray;
+  font-size: 14px;
 }
 
-.article {
-  background-color: var(--bg-white);
-  margin-bottom: 12px;
+// 顶部导航栏
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  background-color: transparent;
+  padding: 0 16px 0 0;
 }
 
-.header {
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  color: $text-black;
+  cursor: pointer;
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.navTitle {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  color: $text-black;
+  letter-spacing: -0.475px;
+  line-height: 28.5px;
+}
+
+.placeholder {
+  width: 48px;
+}
+
+// 文章内容区
+.articleSection {
   padding: 16px;
 }
 
-.title {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-color);
-  line-height: 1.4;
-  margin-bottom: 12px;
-}
-
-.meta {
+.metaRow {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 12px;
-  color: var(--text-light);
+  justify-content: space-between;
+  margin-bottom: 16px;
 }
 
 .tag {
-  color: var(--primary-color);
-  background-color: var(--primary-light);
-  padding: 2px 8px;
-  border-radius: 4px;
+  font-family: 'Noto Sans SC', 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: $primary-green;
+  line-height: 21.13px;
+}
+
+.publishTime {
+  font-family: 'Noto Sans SC', 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: $text-gray;
+  line-height: 21.13px;
+}
+
+.titleGroup {
+  margin-bottom: 16px;
+}
+
+.title {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  color: black;
+  line-height: 28.5px;
+  letter-spacing: -0.475px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #49454f;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+
+.coverWrapper {
+  margin-bottom: 16px;
 }
 
 .cover {
   width: 100%;
-  max-height: 240px;
+  height: 200px;
   object-fit: cover;
+  border-radius: 25px;
+}
+
+.contentPreview {
+  font-family: 'Noto Sans SC', 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: $text-black;
+  line-height: 21.13px;
+  margin-bottom: 16px;
 }
 
 .content {
-  padding: 16px;
   font-size: 15px;
   line-height: 1.8;
-  color: var(--text-color);
+  color: $text-black;
 
   img {
     max-width: 100%;
     height: auto;
-    border-radius: 4px;
+    border-radius: 8px;
     margin: 12px 0;
   }
 
@@ -73,138 +155,198 @@
   }
 }
 
-.actions {
-  display: flex;
-  justify-content: center;
-  padding: 16px;
-  border-top: 1px solid var(--border-light);
-}
-
-.actionBtn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 24px;
-  font-size: 14px;
-  color: var(--text-secondary);
-  background-color: var(--bg-gray);
-  border-radius: 20px;
-  cursor: pointer;
-
-  &:active {
-    opacity: 0.7;
-  }
-
-  &.active {
-    color: #ff6b6b;
-    background-color: #fff0f0;
-  }
-}
-
+// 精选点评区
 .commentsSection {
-  background-color: var(--bg-white);
-  padding: 16px;
+  padding: 0 16px;
 }
 
 .sectionTitle {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-color);
-  margin-bottom: 16px;
-}
-
-.commentInput {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.input {
-  flex: 1;
-  height: 40px;
-  padding: 0 14px;
+  font-family: 'Noto Sans SC', 'Inter', sans-serif;
+  font-weight: 700;
   font-size: 14px;
-  background-color: var(--bg-gray);
-  border-radius: 20px;
-
-  &::placeholder {
-    color: var(--text-light);
-  }
-}
-
-.submitBtn {
-  padding: 0 20px;
-  font-size: 14px;
-  color: #fff;
-  background-color: var(--primary-color);
-  border-radius: 20px;
-  cursor: pointer;
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  &:active:not(:disabled) {
-    opacity: 0.8;
-  }
+  color: black;
+  line-height: 21px;
+  margin-bottom: 8px;
 }
 
 .commentList {
-  // nothing
-}
-
-.emptyComment {
-  text-align: center;
-  padding: 30px;
-  font-size: 14px;
-  color: var(--text-light);
-}
-
-.commentItem {
   display: flex;
-  gap: 10px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border-light);
-
-  &:last-child {
-    border-bottom: none;
-  }
+  flex-direction: column;
+  gap: 8px;
 }
 
-.avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.commentContent {
-  flex: 1;
-  min-width: 0;
+.commentCard {
+  background-color: $bg-card;
+  border: 0.893px solid $border-card;
+  border-radius: 25px;
+  padding: 17px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .commentHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 6px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 1.786px white, 0 0.893px 1.786px rgba(0, 0, 0, 0.05);
 }
 
 .nickname {
+  font-family: 'Noto Sans SC', 'Inter', sans-serif;
+  font-weight: 400;
   font-size: 13px;
-  font-weight: 500;
-  color: var(--text-color);
+  color: $text-black;
+  line-height: 21.13px;
 }
 
-.time {
-  font-size: 12px;
-  color: var(--text-light);
+.moreBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  cursor: pointer;
+  background: none;
+  border: none;
+
+  &:active {
+    opacity: 0.7;
+  }
 }
 
 .commentText {
+  font-family: 'HarmonyOS Sans SC', 'Noto Sans SC', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  color: black;
+  line-height: 16px;
+}
+
+.commentTag {
+  font-family: 'Noto Sans SC', 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: $primary-green;
+  line-height: 21.13px;
+}
+
+.commentActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.likeBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 8px;
+  background-color: #f2f2f2;
+  border-radius: 24px;
+  border: none;
+  cursor: pointer;
+
+  span {
+    font-family: 'Helvetica', sans-serif;
+    font-size: 12px;
+    color: $text-gray;
+  }
+
+  &.active {
+    background-color: rgba($primary-green, 0.1);
+
+    span {
+      color: $primary-green;
+    }
+  }
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.replyCount {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  span {
+    font-family: 'Helvetica', sans-serif;
+    font-size: 12px;
+    color: $text-gray;
+  }
+}
+
+.emptyComment {
+  text-align: center;
+  padding: 40px 16px;
   font-size: 14px;
-  color: var(--text-secondary);
-  line-height: 1.5;
+  color: $text-light;
+}
+
+// 底部评论输入栏
+.bottomBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background-color: $bg-card;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+}
+
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.inputWrapper {
+  flex: 1;
+  height: 56px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.input {
+  width: 100%;
+  height: 100%;
+  padding: 0 20px;
+  font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+  font-size: 16px;
+  color: $text-black;
+  background: transparent;
+  border: none;
+  outline: none;
+
+  &::placeholder {
+    color: $text-light;
+    letter-spacing: 0.5px;
+  }
 }

@@ -4,6 +4,7 @@
  */
 const courseService = require('../../services/course')
 const contentService = require('../../services/content')
+const { navigateToH5 } = require('../../utils/h5Navigation')
 
 Page({
   data: {
@@ -218,9 +219,7 @@ Page({
    */
   onCourseTap(e) {
     const { course } = e.currentTarget.dataset
-    wx.navigateTo({
-      url: `/pages/course-detail/course-detail?courseId=${course.id}`
-    })
+    navigateToH5('course-detail', { courseId: course.id })
   },
 
   /**
@@ -228,17 +227,13 @@ Page({
    */
   onArticleTap(e) {
     const { id } = e.currentTarget.dataset
-    wx.navigateTo({
-      url: `/pages/article-detail/article-detail?id=${id}`
-    })
+    navigateToH5('article-detail', { id })
   },
 
   /**
    * 点击更多文章
    */
   onMoreArticles() {
-    wx.navigateTo({
-      url: '/pages/course/course'
-    })
+    navigateToH5('course', {})
   }
 })

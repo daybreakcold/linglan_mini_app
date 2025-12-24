@@ -4,6 +4,7 @@
  * 格式化日期
  * @param {string|Date} date 日期
  * @param {string} format 格式 (默认 YYYY-MM-DD)
+ * 支持的格式：YYYY, MM, M, DD, D, HH, hh, mm, ss, A
  */
 export const formatDate = (date, format = 'YYYY-MM-DD') => {
   if (!date) return ''
@@ -11,19 +12,25 @@ export const formatDate = (date, format = 'YYYY-MM-DD') => {
   if (isNaN(d.getTime())) return ''
 
   const year = d.getFullYear()
-  const month = String(d.getMonth() + 1).padStart(2, '0')
-  const day = String(d.getDate()).padStart(2, '0')
-  const hour = String(d.getHours()).padStart(2, '0')
-  const minute = String(d.getMinutes()).padStart(2, '0')
-  const second = String(d.getSeconds()).padStart(2, '0')
+  const month = d.getMonth() + 1
+  const day = d.getDate()
+  const hour24 = d.getHours()
+  const hour12 = hour24 % 12 || 12
+  const minute = d.getMinutes()
+  const second = d.getSeconds()
+  const ampm = hour24 >= 12 ? 'PM' : 'AM'
 
   return format
-    .replace('YYYY', year)
-    .replace('MM', month)
-    .replace('DD', day)
-    .replace('HH', hour)
-    .replace('mm', minute)
-    .replace('ss', second)
+    .replace('YYYY', String(year))
+    .replace('MM', String(month).padStart(2, '0'))
+    .replace('M', String(month))
+    .replace('DD', String(day).padStart(2, '0'))
+    .replace('D', String(day))
+    .replace('HH', String(hour24).padStart(2, '0'))
+    .replace('hh', String(hour12).padStart(2, '0'))
+    .replace('mm', String(minute).padStart(2, '0'))
+    .replace('ss', String(second).padStart(2, '0'))
+    .replace('A', ampm)
 }
 
 /**

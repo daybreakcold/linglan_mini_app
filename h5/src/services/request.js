@@ -154,9 +154,10 @@ const showToast = (message) => {
 
 // 跳转登录页
 const redirectToLogin = () => {
-  showToast('请重新登录')
+  showToast('登录已过期，请重新登录')
   setTimeout(() => {
-    window.location.href = '/login'
+    // H5 暂无登录页面，跳转到首页并提示
+    window.location.href = '/?login_required=1'
   }, 1500)
 }
 

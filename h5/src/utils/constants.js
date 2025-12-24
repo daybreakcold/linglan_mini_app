@@ -1,7 +1,7 @@
 // 常量定义
 
-// API 基础地址
-export const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://tmc.u9d.net/tmc'
+// API 基础地址（开发环境为空，使用 Vite 代理；生产环境配置实际域名）
+export const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? ''
 
 // 标签映射 (英文 -> 中文)
 export const TAG_NAME_MAP = {

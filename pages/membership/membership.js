@@ -1,5 +1,6 @@
 // pages/membership/membership.js
 const myService = require('../../services/my')
+const { navigateToH5 } = require('../../utils/h5Navigation')
 
 Page({
   /**
@@ -13,34 +14,35 @@ Page({
     },
     // 会员信息
     membership: {
-      level: 3,
-      levelName: '黄金VIP会员',
-      expireDate: '2025-12-12',
+      active: false,
+      level: 1,
+      levelName: '会员',
+      expireDate: '',
       cardNo: '1278 3987 2979 0789',
-      growthValue: 2728,
-      nextLevelValue: 3500,
-      progressPercent: 78
+      growthValue: 0,
+      nextLevelValue: 1000,
+      progressPercent: 0
     },
     // 套餐信息
     plans: {
       monthly: {
-        price: 9,
+        price: 9.9,
         originalPrice: 12,
         renewPrice: 12
       },
       yearly: {
-        price: 198,
+        price: 98,
         originalPrice: 238,
-        renewPrice: 238
+        renewPrice: 12
       },
       quarterly: {
-        price: 53,
-        originalPrice: 68,
-        renewPrice: 68
+        price: 28.8,
+        originalPrice: 36,
+        renewPrice: 12
       }
     },
     // 选中的套餐
-    selectedPlan: 'yearly',
+    selectedPlan: 'monthly',
     // 课程列表
     courses: []
   },
@@ -199,9 +201,7 @@ Page({
    * 查看更多课程
    */
   onViewMoreCourses() {
-    wx.navigateTo({
-      url: '/pages/course/course'
-    })
+    navigateToH5('course', {})
   },
 
   /**
@@ -209,9 +209,7 @@ Page({
    */
   onCourseTap(e) {
     const { id } = e.currentTarget.dataset
-    wx.navigateTo({
-      url: `/pages/course-detail/course-detail?courseId=${id}`
-    })
+    navigateToH5('course-detail', { courseId: id })
   },
 
   /**

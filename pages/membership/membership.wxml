@@ -1,169 +1,142 @@
-<view class="flex-col page">
-  <view class="flex-col group">
-    <!-- 顶部背景区域 -->
-    <view class="flex-col section">
-      <!-- 状态栏占位 -->
-      <view class="status-bar-placeholder"></view>
-      <!-- 导航栏 -->
-      <view class="mt-20 flex-row justify-center relative group_4">
-        <image
-          class="self-start image_6 pos_3"
-          src="https://ide.code.fun/api/image?token=6933fbfb043f1900118f7710&name=057c73524377635eba89c832cdbba0b3.png"
-          bindtap="onBack"
-        />
-        <text class="self-center text_2">开通会员</text>
-        <view class="flex-col justify-start items-center group_5 pos">
-          <image
-            class="image_4"
-            src="https://ide.code.fun/api/image?token=6933fbfb043f1900118f7710&name=9c30fb95de153781531626931fa93235.png"
-          />
-          <image
-            class="image_5 pos_2"
-            src="https://ide.code.fun/api/image?token=6933fbfb043f1900118f7710&name=9b4d0d258dfe1a7b352454bbf45840d5.png"
-          />
+<view class="page">
+  <!-- 状态栏占位 -->
+  <view class="status-bar"></view>
+  
+  <!-- 顶部导航栏 -->
+  <view class="navbar">
+    <view class="navbar-left" bindtap="onBack">
+      <image class="back-icon" src="/images/icons/arrow-left.svg" />
+    </view>
+    <text class="navbar-title">我的权益</text>
+    <view class="navbar-right"></view>
+  </view>
+
+  <!-- 深色背景区域 -->
+  <view class="dark-header">
+    <!-- 用户信息 -->
+    <view class="user-section">
+      <view class="user-info">
+        <view class="avatar-wrapper">
+          <image class="avatar" src="{{userInfo.avatar || '/images/icons/avatar-user.svg'}}" />
+          <view class="avatar-badge">
+            <image class="crown-icon" src="/images/icons/crown.svg" mode="aspectFit" />
+          </view>
+        </view>
+        <view class="user-details">
+          <view class="user-name-row">
+            <text class="user-name">{{userInfo.nickname || '会员昵称'}}</text>
+            <view class="vip-badge" wx:if="{{membership.active}}">
+              <text class="vip-text">SVIP{{membership.level || 1}}</text>
+            </view>
+          </view>
+          <text class="expire-text" wx:if="{{membership.active}}">包月会员于 {{membership.expireDate || '---'}} 到期</text>
+          <text class="expire-text" wx:else>暂未开通会员</text>
         </view>
       </view>
     </view>
 
-    <!-- 会员卡片和内容区域 -->
-    <view class="flex-col relative group_6">
-      <!-- 会员卡片 -->
-      <view class="flex-col self-stretch relative section_2">
-        <view class="flex-col">
-          <!-- 用户信息 -->
-          <view class="flex-row items-center">
-            <view class="flex-col justify-start items-start relative group_7">
-              <image
-                class="image_7"
-                src="{{userInfo.avatar || '/images/icons/avatar-user.svg'}}"
-              />
-              <image
-                class="image_8 pos_5"
-                src="https://ide.code.fun/api/image?token=6933fbfb043f1900118f7710&name=a307a646d8638627653dd7913b9045be.png"
-              />
-            </view>
-            <view class="flex-col group_8 ml-5">
-              <view class="flex-row items-center self-stretch group_9">
-                <text class="font text_4">{{userInfo.nickname || '会员昵称'}}</text>
-                <view class="flex-col justify-start items-end shrink-0 relative group_10">
-                  <view class="flex-col justify-start items-center text-wrapper_2">
-                    <text class="font_2 text_5">V{{membership.level || 3}}</text>
-                  </view>
-                  <image
-                    class="image_9 pos_6"
-                    src="https://ide.code.fun/api/image?token=6933fbfb043f1900118f7710&name=f3abebabcd103f8f40874504e6622e4d.png"
-                  />
-                </view>
-                <view class="flex-col justify-start items-center shrink-0 text-wrapper_3">
-                  <text class="text_6 text_7">年</text>
-                </view>
-              </view>
-              <text class="self-start font_3 text_8 mt-13">{{membership.expireDate || '2025-12-12'}} 到期</text>
-            </view>
-          </view>
-
-          <!-- 成长值进度条 -->
-          <view class="flex-row items-end group_11 mt-17">
-            <view class="flex-col justify-start flex-1 relative group_12">
-              <view class="flex-row items-center">
-                <view class="flex-col justify-start items-center shrink-0 text-wrapper_5">
-                  <text class="font_2 text_5">V{{membership.level || 3}}</text>
-                </view>
-                <view class="flex-col justify-start items-start flex-1 section_4 ml-23">
-                  <view class="divider" style="width: {{membership.progressPercent || 78}}%;"></view>
-                </view>
-              </view>
-              <view class="section_3 pos_8"></view>
-              <view class="flex-col justify-start items-center text-wrapper_4 pos_7">
-                <text class="font_2 text_5 text_9">{{membership.growthValue || 2728}}</text>
-              </view>
-            </view>
-            <view class="ml-4 flex-row shrink-0 group_13">
-              <view class="flex-col justify-start items-center shrink-0 self-start text-wrapper_6">
-                <text class="font_2 text_6 text_11">V{{(membership.level || 3) + 1}}</text>
-              </view>
-              <text class="self-center font_3 text_6 text_10 ml-9">成长值 {{membership.growthValue || 2728}}/{{membership.nextLevelValue || 3500}}</text>
-            </view>
-          </view>
-        </view>
-
-        <!-- 卡号和续费按钮 -->
-        <view class="flex-row justify-between items-start group_14">
-          <text class="font_4 text_12">NO.{{membership.cardNo || '1278 3987 2979 0789'}}</text>
-          <view class="flex-col justify-start items-center text-wrapper_7" bindtap="onRenew">
-            <text class="font_5 text_5 text_13">立即续费</text>
-          </view>
-        </view>
-
-        <!-- 会员等级标签 -->
-        <view class="flex-col justify-start text-wrapper pos_4">
-          <text class="font text_3">{{membership.levelName || '黄金VIP会员'}}</text>
-        </view>
+    <!-- 积分进度条 -->
+    <view class="progress-section" wx:if="{{membership.active}}">
+      <view class="level-badge">
+        <text class="level-text">V{{membership.level || 1}}</text>
       </view>
-
-      <!-- 套餐选择区域 - 敬请期待 -->
-      <view class="flex-col justify-start items-center self-stretch coming-soon-section">
-        <text class="coming-soon-text">会员套餐</text>
-        <text class="coming-soon-sub">敬请期待</text>
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{membership.progressPercent || 0}}%;"></view>
       </view>
-
-      <!-- 立即开通按钮 -->
-      <!-- <view class="flex-col justify-start items-center self-stretch text-wrapper_9" bindtap="onSubscribe">
-        <text class="font_5 text_25">立即开通</text>
-      </view> -->
-
-      <!-- 会员协议 -->
-      <view class="flex-col self-stretch group_21">
-        <text class="font_12">
-          在您注册成为会员之前，请认真阅读本《会员服务协议》（以下简称"服务协议"），确保您充分理解服务协议中各条款，包括免除微鲤责任的条款及限制会员权利的条款。请您审慎阅读并选择接受或不接受本服务协议。除非您接受本服务协议所有条款，否则您不得注册、登录或使用本服务协议所涉服务。您的注册、登录、使用等行为将视为对本服务协议的接受，并同意接受本服务协议各项条款的约束。
-        </text>
-        <text class="mt-6 font_12">
-          本服务协议可由灵医随时更新，更新后的服务协议一旦公布即代替原来的服务协议，恕不再另行通知，用户可在应用内查阅最新版服务协议
-        </text>
+      <view class="level-badge">
+        <text class="level-text">V{{(membership.level || 1) + 1}}</text>
       </view>
-
-      <!-- 会员权益标题 -->
-      <!-- <view class="flex-row justify-center items-center self-center relative section_7">
-        <image
-          class="image_10 pos_11"
-          src="https://ide.code.fun/api/image?token=6933fbfb043f1900118f7710&name=0000a2c3f8edd871c97771c4ff33928a.png"
-        />
-        <text class="font_12 text_26">36+ 精选会员权益</text>
-      </view> -->
-
-      <!-- 会员课程免费看 -->
-      <!-- <view class="flex-row justify-between items-center self-stretch group_22">
-        <text class="font_7 text_27">会员课程免费看</text>
-        <view class="flex-row items-end group_23" bindtap="onViewMoreCourses">
-          <text class="font_12 text_28">查看更多</text>
-          <image
-            class="ml-6 shrink-0 image_11"
-            src="https://ide.code.fun/api/image?token=6933fbfb043f1900118f7710&name=3b4bf9ee2da9d6e47bec314c97fb2460.png"
-          />
-        </view>
-      </view> -->
-
-      <!-- 课程列表1 -->
-      <!-- <view class="flex-col self-stretch group_24 view">
-        <scroll-view class="flex-row self-stretch group_24" scroll-x>
-          <view class="flex-col shrink-0 section_8" wx:for="{{courses}}" wx:key="id" bindtap="onCourseTap" data-id="{{item.id}}">
-            <image
-              class="self-start image_12"
-              src="{{item.tag === 'VIP' ? 'https://ide.code.fun/api/image?token=6933fbfb043f1900118f7710&name=8eae5849f3ded1104a7dd469c97a130f.png' : 'https://ide.code.fun/api/image?token=6933fbfb043f1900118f7710&name=c0dd24ae72a242230597d1b6eac27629.png'}}"
-            />
-            <view class="mt-64 flex-row items-center self-stretch section_11">
-              <image
-                class="image_13"
-                src="https://ide.code.fun/api/image?token=6933fbfb043f1900118f7710&name=d20ca6f8895be5adcf68594ee358a000.png"
-              />
-              <text class="ml-8 font">共{{item.videoCount || 10}}个视频</text>
-            </view>
-          </view>
-        </scroll-view>
-        <view class="flex-row items-center self-stretch group_24 view_2">
-          <text class="font_4" wx:for="{{courses}}" wx:key="id" wx:if="{{index < 3}}">{{item.title}}</text>
-        </view>
-      </view> -->
+      <text class="progress-text">当前积分 {{membership.growthValue || 0}}/{{membership.nextLevelValue || 1000}}</text>
     </view>
+
+    <!-- 卡号和续费 -->
+    <view class="card-info-row" wx:if="{{membership.active}}">
+      <text class="card-no">NO.{{membership.cardNo || '---- ---- ---- ----'}}</text>
+      <view class="renew-btn" bindtap="onRenew">
+        <text class="renew-text">立即续费</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 套餐选择区域 -->
+  <view class="plans-section">
+    <view class="plans-container">
+      <!-- 连续包月 -->
+      <view 
+        class="plan-card {{selectedPlan === 'monthly' ? 'plan-selected' : ''}}" 
+        bindtap="onSelectPlan" 
+        data-plan="monthly"
+      >
+        <view class="plan-tag tag-discount">
+          <text class="tag-text">限时优惠</text>
+        </view>
+        <text class="plan-name">连续包月</text>
+        <view class="plan-price">
+          <text class="price-symbol">¥</text>
+          <text class="price-amount">{{plans.monthly.price}}</text>
+        </view>
+        <text class="price-original">¥{{plans.monthly.originalPrice}}</text>
+        <view class="plan-desc">
+          <text>次月¥{{plans.monthly.renewPrice}} 续费</text>
+          <text>可随时取消</text>
+        </view>
+      </view>
+
+      <!-- 连续包年 -->
+      <view 
+        class="plan-card {{selectedPlan === 'yearly' ? 'plan-selected' : ''}}" 
+        bindtap="onSelectPlan" 
+        data-plan="yearly"
+      >
+        <view class="plan-tag tag-recommend">
+          <text class="tag-text">超值推荐</text>
+        </view>
+        <text class="plan-name">连续包年</text>
+        <view class="plan-price">
+          <text class="price-symbol">¥</text>
+          <text class="price-amount">{{plans.yearly.price}}</text>
+        </view>
+        <text class="price-original">¥{{plans.yearly.originalPrice}}</text>
+        <view class="plan-desc">
+          <text>次年¥{{plans.yearly.renewPrice}} 续费</text>
+          <text>可随时取消</text>
+        </view>
+      </view>
+
+      <!-- 连续包季 -->
+      <view 
+        class="plan-card {{selectedPlan === 'quarterly' ? 'plan-selected' : ''}}" 
+        bindtap="onSelectPlan" 
+        data-plan="quarterly"
+      >
+        <view class="plan-tag tag-discount">
+          <text class="tag-text">限时优惠</text>
+        </view>
+        <text class="plan-name">连续包季</text>
+        <view class="plan-price">
+          <text class="price-symbol">¥</text>
+          <text class="price-amount">{{plans.quarterly.price}}</text>
+        </view>
+        <text class="price-original">¥{{plans.quarterly.originalPrice}}</text>
+        <view class="plan-desc">
+          <text>次季¥{{plans.quarterly.renewPrice}} 续费</text>
+          <text>可随时取消</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 立即开通按钮 -->
+  <view class="subscribe-section">
+    <view class="subscribe-btn" bindtap="onSubscribe">
+      <text class="subscribe-text">立即开通</text>
+    </view>
+  </view>
+
+  <!-- 会员协议 -->
+  <view class="agreement-section">
+    <text class="agreement-text">
+      在您注册成为会员之前，请认真阅读本《会员服务协议》（以下简称"服务协议"），确保您充分理解服务协议中各条款，包括免除微鲤责任的条款及限制会员权利的条款。请您审慎阅读并选择接受或不接受本服务协议。除非您接受本服务协议所有条款，否则您不得注册、登录或使用本服务协议所涉服务。您的注册、登录、使用等行将视为对本服务协议的接受，并同意接受本服务协议各项条款的约束。本服务协议可由灵医随时更新，更新后的服务协议一旦公布即代替原来的服务协议，恕不再另行通知，用户可在应用内查阅最新版服务协议
+    </text>
   </view>
 </view>

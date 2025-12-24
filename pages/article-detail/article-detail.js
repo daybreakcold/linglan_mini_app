@@ -1,5 +1,6 @@
 // pages/article-detail/article-detail.js
 const contentService = require('../../services/content')
+const { navigateToH5 } = require('../../utils/h5Navigation')
 
 Page({
   data: {
@@ -292,8 +293,6 @@ Page({
    */
   onArticleTap(e) {
     const { id } = e.currentTarget.dataset
-    wx.navigateTo({
-      url: `/pages/article-detail/article-detail?id=${id}`
-    })
+    navigateToH5('article-detail', { id })
   }
 })

@@ -1,107 +1,45 @@
 /**
  * AI 服务 - 对话相关 API
+ * 与小程序保持一致的接口调用
  */
 
 import { get, post } from './request'
-import { BASE_URL } from '@/utils/constants'
-import { getToken } from '@/utils/storage'
 
 /**
- * 初始化对话页面
+ * 初始化 AI 问答页面
  * @param {number} templateId - 模板 ID
+ * @param {number} historySize - 首屏加载的历史条数，默认 20，最大 50
+ * @returns {Promise} - 返回 { doctor, presetMessages, history, tag, description, historyHasMore, nextCursor }
  */
-export const initDialogPage = (templateId) => {
-  return post('/api/ai/dialog/init', { templateId })
+export const initDialogPage = (templateId, historySize = 20) => {
+  return get('/api/ai/dialogs/initial', { templateId, historySize })
 }
 
 /**
- * 获取对话历史
- * @param {Object} params - { dialogId, page, size }
+ * 加载更多历史记录（向上滚动加载）
+ * @param {Object} params - { tag, cursor, size }
  */
-export const getDialogHistory = (params = {}) => {
-  return get('/api/ai/dialog/history', {
-    dialogId: params.dialogId,
-    page: params.page || 1,
-    size: params.size || 20
-  })
+export const loadHistory = (params = {}) => {
+  const { tag, cursor, size = 20 } = params
+  return get('/api/ai/dialogs/history', { tag, cursor, size })
 }
 
 /**
- * 发送消息 (流式响应)
- * @param {Object} data - { dialogId, content }
- * @param {Function} onMessage - 收到消息时的回调
- * @param {Function} onDone - 完成时的回调
- * @param {Function} onError - 错误时的回调
+ * 发送 AI 问答消息
+ * @param {Object} data - 请求数据
+ * @param {string} data.question - 当前输入的问题
+ * @param {Array} data.history - 前端保留的上下文列表 [{role, content}]
+ * @param {number} data.templateId - 当前页面使用的模板 ID
+ * @param {string} data.tag - 当前场景标签
+ * @param {number} data.temperature - 模型随机度，默认 0.7
+ * @returns {Promise} - 返回 { reply, sessionId }
  */
-export const sendMessage = async (data, { onMessage, onDone, onError }) => {
-  const token = getToken()
-
-  try {
-    const response = await fetch(`${BASE_URL}/api/ai/dialog/send`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-token': token
-      },
-      body: JSON.stringify(data)
-    })
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-
-    const reader = response.body.getReader()
-    const decoder = new TextDecoder()
-    let buffer = ''
-
-    while (true) {
-      const { done, value } = await reader.read()
-
-      if (done) {
-        if (onDone) onDone()
-        break
-      }
-
-      buffer += decoder.decode(value, { stream: true })
-
-      // 处理 SSE 格式数据
-      const lines = buffer.split('\n')
-      buffer = lines.pop() || ''
-
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          const data = line.slice(6)
-          if (data === '[DONE]') {
-            if (onDone) onDone()
-            return
-          }
-          try {
-            const json = JSON.parse(data)
-            if (onMessage) onMessage(json)
-          } catch (e) {
-            // 普通文本
-            if (onMessage) onMessage({ content: data })
-          }
-        }
-      }
-    }
-  } catch (error) {
-    console.error('发送消息失败:', error)
-    if (onError) onError(error)
-  }
-}
-
-/**
- * 发送消息 (非流式)
- * @param {Object} data - { dialogId, content }
- */
-export const sendMessageSync = (data) => {
-  return post('/api/ai/dialog/send', data)
+export const sendMessage = (data) => {
+  return post('/api/consult/ai/messages', data)
 }
 
 export default {
   initDialogPage,
-  getDialogHistory,
-  sendMessage,
-  sendMessageSync
+  loadHistory,
+  sendMessage
 }

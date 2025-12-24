@@ -8,6 +8,7 @@
  * 4. 调用登录接口完成登录，同时传递头像和昵称
  */
 const authService = require('../../services/auth')
+const { navigateToH5 } = require('../../utils/h5Navigation')
 
 // 默认头像
 const DEFAULT_AVATAR = '/images/icons/avatar-user.svg'
@@ -38,14 +39,14 @@ Page({
    * 查看用户协议
    */
   onViewUserAgreement() {
-    wx.navigateTo({ url: '/pages/agreement/agreement?type=user' })
+    navigateToH5('agreement', { type: 'user' })
   },
 
   /**
    * 查看隐私政策
    */
   onViewPrivacyPolicy() {
-    wx.navigateTo({ url: '/pages/agreement/agreement?type=privacy' })
+    navigateToH5('agreement', { type: 'privacy' })
   },
 
   /**

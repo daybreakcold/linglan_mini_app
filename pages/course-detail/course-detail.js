@@ -1,5 +1,6 @@
 // pages/course-detail/course-detail.js
 const courseService = require('../../services/course')
+const { navigateToH5 } = require('../../utils/h5Navigation')
 
 Page({
   /**
@@ -263,9 +264,7 @@ Page({
       })
     } else if (section.contentType === 'ARTICLE' && section.article) {
       // 跳转到文章详情
-      wx.navigateTo({
-        url: `/pages/article-detail/article-detail?id=${section.article.id}`
-      })
+      navigateToH5('article-detail', { id: section.article.id })
     }
   },
 

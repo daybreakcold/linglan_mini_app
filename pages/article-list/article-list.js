@@ -4,6 +4,7 @@
  * 支持标签筛选、关键字搜索、分页加载
  */
 const contentService = require('../../services/content')
+const { navigateToH5 } = require('../../utils/h5Navigation')
 
 // 标签配置
 const TAGS = [
@@ -210,9 +211,7 @@ Page({
    */
   onArticleTap(e) {
     const { id } = e.currentTarget.dataset
-    wx.navigateTo({
-      url: `/pages/article-detail/article-detail?id=${id}`
-    })
+    navigateToH5('article-detail', { id })
   },
 
   /**
