@@ -78,7 +78,7 @@
                   class="shrink-0 image_12"
                   src="{{isLiked ? '/images/like-active.png' : 'https://ide.code.fun/api/image?token=6933fbfb043f1900118f7710&name=863f83ee6d043b968a2825f24f0a3ddd.png'}}"
                 />
-                <text class="text_8 ml-9">有帮助 ({{article.likeCount || 0}})</text>
+                <text class="text_8">有帮助 ({{article.likeCount || 0}})</text>
               </view>
               <view class="flex-row items-center">
                 <text class="view-count">浏览 {{article.viewCount || 0}}</text>
