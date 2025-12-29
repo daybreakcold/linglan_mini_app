@@ -36,7 +36,7 @@
     </view>
 
     <!-- 积分进度条 -->
-    <view class="progress-section" wx:if="{{membership.active}}">
+    <!-- <view class="progress-section" wx:if="{{membership.active}}">
       <view class="level-badge">
         <text class="level-text">V{{membership.level || 1}}</text>
       </view>
@@ -47,80 +47,40 @@
         <text class="level-text">V{{(membership.level || 1) + 1}}</text>
       </view>
       <text class="progress-text">当前积分 {{membership.growthValue || 0}}/{{membership.nextLevelValue || 1000}}</text>
-    </view>
+    </view> -->
 
     <!-- 卡号和续费 -->
-    <view class="card-info-row" wx:if="{{membership.active}}">
+    <!-- <view class="card-info-row" wx:if="{{membership.active}}">
       <text class="card-no">NO.{{membership.cardNo || '---- ---- ---- ----'}}</text>
       <view class="renew-btn" bindtap="onRenew">
         <text class="renew-text">立即续费</text>
       </view>
-    </view>
+    </view> -->
   </view>
 
   <!-- 套餐选择区域 -->
   <view class="plans-section">
     <view class="plans-container">
-      <!-- 连续包月 -->
-      <view 
-        class="plan-card {{selectedPlan === 'monthly' ? 'plan-selected' : ''}}" 
-        bindtap="onSelectPlan" 
-        data-plan="monthly"
+      <!-- 动态渲染套餐产品 -->
+      <view
+        wx:for="{{products}}"
+        wx:key="productId"
+        class="plan-card {{selectedProductId === item.productId ? 'plan-selected' : ''}}"
+        bindtap="onSelectPlan"
+        data-product-id="{{item.productId}}"
       >
-        <view class="plan-tag tag-discount">
-          <text class="tag-text">限时优惠</text>
+        <view class="plan-tag {{item.recommend ? 'tag-recommend' : 'tag-discount'}}">
+          <text class="tag-text">{{item.tag || '优惠'}}</text>
         </view>
-        <text class="plan-name">连续包月</text>
+        <text class="plan-name">{{item.title}}</text>
         <view class="plan-price">
           <text class="price-symbol">¥</text>
-          <text class="price-amount">{{plans.monthly.price}}</text>
+          <text class="price-amount">{{item.priceYuan}}</text>
         </view>
-        <text class="price-original">¥{{plans.monthly.originalPrice}}</text>
+        <text class="price-original">¥{{item.showPriceYuan}}</text>
         <view class="plan-desc">
-          <text>次月¥{{plans.monthly.renewPrice}} 续费</text>
-          <text>可随时取消</text>
-        </view>
-      </view>
-
-      <!-- 连续包年 -->
-      <view 
-        class="plan-card {{selectedPlan === 'yearly' ? 'plan-selected' : ''}}" 
-        bindtap="onSelectPlan" 
-        data-plan="yearly"
-      >
-        <view class="plan-tag tag-recommend">
-          <text class="tag-text">超值推荐</text>
-        </view>
-        <text class="plan-name">连续包年</text>
-        <view class="plan-price">
-          <text class="price-symbol">¥</text>
-          <text class="price-amount">{{plans.yearly.price}}</text>
-        </view>
-        <text class="price-original">¥{{plans.yearly.originalPrice}}</text>
-        <view class="plan-desc">
-          <text>次年¥{{plans.yearly.renewPrice}} 续费</text>
-          <text>可随时取消</text>
-        </view>
-      </view>
-
-      <!-- 连续包季 -->
-      <view 
-        class="plan-card {{selectedPlan === 'quarterly' ? 'plan-selected' : ''}}" 
-        bindtap="onSelectPlan" 
-        data-plan="quarterly"
-      >
-        <view class="plan-tag tag-discount">
-          <text class="tag-text">限时优惠</text>
-        </view>
-        <text class="plan-name">连续包季</text>
-        <view class="plan-price">
-          <text class="price-symbol">¥</text>
-          <text class="price-amount">{{plans.quarterly.price}}</text>
-        </view>
-        <text class="price-original">¥{{plans.quarterly.originalPrice}}</text>
-        <view class="plan-desc">
-          <text>次季¥{{plans.quarterly.renewPrice}} 续费</text>
-          <text>可随时取消</text>
+          <text>{{item.renewTip || '续费'}}¥{{item.renewPriceYuan}}</text>
+          <text>{{item.cancelTip || '可随时取消'}}</text>
         </view>
       </view>
     </view>

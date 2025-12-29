@@ -299,7 +299,7 @@
 
 .price-amount {
   font-family: 'HarmonyOS Sans SC', sans-serif;
-  font-size: 80rpx;
+  font-size: 40rpx;
   color: #000;
   letter-spacing: -0.9rpx;
   line-height: 1;
